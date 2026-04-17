@@ -5,6 +5,7 @@ status: 'Under Review'
 title: 'Integrating Biodiversity, Structural Complexity, and Canopy Dynamics Across a National Forest Gradient in Bhutan: Implications for Monitoring and Management'
 authors: 'Wangdi, Laxmi Sagar, Sangay Chedup, Sangay Dorjee & Tashi Waiba Norbu'
 venue: 'Forest Ecology and Management'
+pdf: '/publications/Wangdi_etal_FEM_2026_main.pdf'
 tags:
   - National Forest Inventory
   - Structural complexity

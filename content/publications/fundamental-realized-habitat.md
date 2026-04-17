@@ -5,6 +5,7 @@ status: 'Under Review'
 title: 'Separating Fundamental from Realized Habitat: A Transferable Dual-Model Framework for Quantifying Anthropogenic Constraints on Species Distributions in Human-Dominated Landscapes'
 authors: 'Wangdi, W., Tshering Dorji, Jigme Tenzin & Tashi Choden'
 venue: 'Manuscript under review'
+pdf: '/publications/01_manuscript.pdf'
 tags:
   - Species distribution modelling
   - Anthropogenic constraints

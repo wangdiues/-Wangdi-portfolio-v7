@@ -5,6 +5,7 @@ status: 'Under Review'
 title: 'Climate-driven Habitat Changes and Refugia Dynamics for Asian Elephants in Bhutan under CMIP6 Scenarios'
 authors: 'Wangdi & Laxmi Sagar'
 venue: 'Ecology & Evolution'
+pdf: '/publications/manuscript_ecology_evolution.pdf'
 tags:
   - CMIP6
   - Climate refugia

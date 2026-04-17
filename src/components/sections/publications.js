@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery, graphql, withPrefix } from 'gatsby';
 import styled from 'styled-components';
 import { Icon } from '@components/icons';
 import { srConfig } from '@config';
@@ -110,6 +110,35 @@ const StyledPublication = styled.li`
     width: 20px;
     height: 20px;
   }
+
+  .pdf-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    padding: 7px 14px;
+    border: 1px solid var(--green);
+    border-radius: var(--border-radius);
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: var(--fz-xxs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: var(--transition);
+
+    &:hover,
+    &:focus {
+      background: rgba(156, 207, 99, 0.1);
+      outline: none;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+  }
 `;
 
 const Publications = () => {
@@ -128,6 +157,7 @@ const Publications = () => {
               status
               year
               external
+              pdf
               tags
             }
             html
@@ -167,7 +197,7 @@ const Publications = () => {
       <ul className="publications-grid">
         {publications.map(({ node }, index) => {
           const { frontmatter, html } = node;
-          const { title, authors, venue, status, year, external, tags } = frontmatter;
+          const { title, authors, venue, status, year, external, pdf, tags } = frontmatter;
 
           return (
             <StyledPublication key={index} ref={el => (revealCards.current[index] = el)}>
@@ -197,6 +227,17 @@ const Publications = () => {
                       <li key={i}>{tag}</li>
                     ))}
                   </ul>
+                )}
+                {pdf && (
+                  <a
+                    className="pdf-link"
+                    href={withPrefix(pdf)}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`View PDF: ${title}`}>
+                    <Icon name="External" />
+                    View Manuscript
+                  </a>
                 )}
               </div>
             </StyledPublication>

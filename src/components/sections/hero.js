@@ -30,10 +30,15 @@ const StyledHeroSection = styled.section`
     }
   }
 
-  h3 {
+  h2.big-heading {
+    font-size: clamp(36px, 6vw, 60px);
+  }
+
+  h3.big-heading {
     margin-top: 5px;
     color: var(--slate);
-    line-height: 1.05;
+    line-height: 1.1;
+    font-size: clamp(22px, 4vw, 42px);
   }
 
   p {

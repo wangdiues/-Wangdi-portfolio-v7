@@ -5,6 +5,7 @@ status: 'Published'
 title: 'Analysis of Physical and Chemical Properties of Natural Salt Licks and Determination of Animal Presence'
 authors: 'Wangdi et al.'
 venue: 'Journal of Renewable Natural Resources Bhutan'
+external: 'https://www.bjnrd.org/index.php/bjnrd/article/view/80/77'
 tags:
   - Salt licks
   - Wildlife ecology

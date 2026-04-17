@@ -5,6 +5,7 @@ status: 'Under Review'
 title: "Ecosystem Integrity in Bhutan's Protected Area Network: A Spatial Assessment Using the Ecosystem Integrity Index"
 authors: 'Wangdi Wangdi & Tashi Choden'
 venue: 'Manuscript under review'
+pdf: '/publications/Manuscript_revised_MAIN.pdf'
 tags:
   - Ecosystem Integrity Index
   - Protected areas
