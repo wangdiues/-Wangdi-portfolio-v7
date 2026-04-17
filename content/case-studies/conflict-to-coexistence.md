@@ -3,7 +3,7 @@ date: '2025-01-01'
 title: 'Conflict-to-Coexistence Strategy for Human-Elephant Conflict Mitigation'
 region: 'Sarpang Forest Division, Bhutan'
 focus: 'Applied strategy development for coexistence planning and conflict mitigation'
-impact: 'Prepared a structured coexistence strategy translating spatial conflict data and community realities into a policy-aligned action framework for one of Bhutan's highest human-elephant conflict zones, directly informing mitigation investment and field operations.'
+impact: "Prepared a structured coexistence strategy translating spatial conflict data and community realities into a policy-aligned action framework for one of Bhutan's highest human-elephant conflict zones, directly informing mitigation investment and field operations."
 methods:
   - Strategy development
   - Stakeholder coordination
