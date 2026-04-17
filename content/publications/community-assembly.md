@@ -5,6 +5,11 @@ status: 'In Preparation'
 title: 'Community Assembly and Environmental Filtering Along a Disturbance-Climate Gradient in a Himalayan Tiger Landscape'
 authors: 'Wangdi et al.'
 venue: 'Manuscript in preparation'
+tags:
+  - Community assembly
+  - Environmental filtering
+  - Disturbance gradient
+  - Himalaya
 ---
 
-Research on community assembly and environmental filtering along a disturbance-climate gradient in a Himalayan tiger landscape.
+Investigates how plant community assembly and environmental filtering operate along a combined disturbance–climate gradient within a Himalayan tiger conservation landscape. Examines the relative roles of abiotic filtering, dispersal limitation, and disturbance history in structuring vegetation communities across a gradient from low-disturbance forest interior to high-disturbance edge and human-influenced zones, with implications for monitoring vegetation change in multi-use protected landscapes.

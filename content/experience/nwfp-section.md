@@ -8,9 +8,9 @@ range: 'March 2026 - Present'
 url: ''
 ---
 
-- Administer national-level non-wood forest product allocation processes to support equitable distribution and regulatory compliance.
-- Review utilization permits, quotas, and royalty-related documentation under the forest governance framework.
-- Monitor harvesting trends and utilization patterns to support sustainable off-take and stronger resource oversight.
-- Contribute to NWFP management plans, harvesting guidelines, and national forestry policy processes.
-- Support resource assessments and inventories of commercially and ecologically important NWFPs.
-- Provide technical guidance to field officers on NWFP identification, data collection, and compliance monitoring.
+- Administer national-level NWFP allocation and regulatory compliance processes, overseeing equitable distribution of harvesting rights across Bhutan's forest governance framework.
+- Lead technical review of utilization permits, harvesting quotas, and royalty documentation to ensure legal compliance and sustainable off-take.
+- Analyse national harvesting trends and utilization patterns to identify management gaps and provide evidence-based recommendations for quota revision and resource oversight.
+- Contribute to NWFP management plan development, harvesting guideline revision, and national forestry policy processes at divisional and national level.
+- Coordinate field-based resource assessments and inventories of commercially significant and ecologically sensitive non-wood forest products.
+- Provide technical mentorship to field officers on NWFP identification, standardised data collection protocols, and compliance monitoring procedures.

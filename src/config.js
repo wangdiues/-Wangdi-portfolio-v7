@@ -1,7 +1,16 @@
 module.exports = {
   email: 'wangdiues@gmail.com',
 
-  socialMedia: [],
+  socialMedia: [
+    {
+      name: 'ORCID',
+      url: 'https://orcid.org/0009-0007-7726-1742',
+    },
+    {
+      name: 'Linkedin',
+      url: 'https://www.linkedin.com/in/wangdi-wangdi',
+    },
+  ],
 
   navLinks: [
     {

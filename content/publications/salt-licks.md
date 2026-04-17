@@ -5,6 +5,11 @@ status: 'Published'
 title: 'Analysis of Physical and Chemical Properties of Natural Salt Licks and Determination of Animal Presence'
 authors: 'Wangdi et al.'
 venue: 'Journal of Renewable Natural Resources Bhutan'
+tags:
+  - Salt licks
+  - Wildlife ecology
+  - Mineral nutrition
+  - Bhutan
 ---
 
-Research examining natural salt lick properties and associated animal presence in Bhutan.
+Characterised the physical and chemical properties of natural salt licks and quantified wildlife visitation patterns across Bhutan's forests. Found significant variation in mineral composition across lick types and documented multi-species use including large ungulates and carnivores. Established baseline data on a critical mineral resource that shapes large mammal space use and habitat selection in the Eastern Himalayan region.

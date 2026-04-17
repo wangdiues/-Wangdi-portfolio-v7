@@ -39,6 +39,25 @@ const StyledContactSection = styled.section`
     ${({ theme }) => theme.mixins.bigButton};
     margin-top: 50px;
   }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+
+    a {
+      color: var(--light-slate);
+      font-family: var(--font-mono);
+      font-size: var(--fz-xs);
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--green);
+      }
+    }
+  }
 `;
 
 const Contact = () => {
@@ -60,13 +79,24 @@ const Contact = () => {
       <h2 className="title">Get In Touch</h2>
 
       <p>
-        For collaboration on biodiversity research, conservation planning, climate and forest
-        governance work, technical reviews, or speaking opportunities, reach out by email.
+        Open to collaboration on biodiversity research, conservation planning, climate and forest
+        governance, technical peer review, or speaking opportunities. I typically respond within a
+        few working days.
       </p>
 
       <a className="email-link" href={`mailto:${email}`}>
         Email Wangdi
       </a>
+
+      <div className="contact-links">
+        <a
+          href="https://orcid.org/0009-0007-7726-1742"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="ORCID profile">
+          ORCID: 0009-0007-7726-1742
+        </a>
+      </div>
     </StyledContactSection>
   );
 };

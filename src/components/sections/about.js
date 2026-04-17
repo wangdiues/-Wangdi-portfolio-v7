@@ -159,6 +159,14 @@ const About = () => {
               depth.
             </p>
 
+            <p>
+              He has 2 papers published in peer-reviewed journals and 5 manuscripts currently under
+              review at international journals — including Ecology &amp; Evolution, Forest Ecology
+              and Management, and Journal of Vegetation Science — with 4 additional manuscripts in
+              preparation spanning tiger ecology, plant community assembly, and ecosystem integrity
+              assessment.
+            </p>
+
             <p>Selected tools and methods:</p>
           </div>
 
@@ -209,8 +217,9 @@ const About = () => {
           <div className="panel-group">
             <span className="panel-label">Research Profile</span>
             <p>
-              Published peer-reviewed work in biodiversity topics, with active manuscripts spanning
-              elephants, tigers, vegetation ecology, and ecosystem integrity.
+              2 published. 5 under review at Ecology &amp; Evolution, Forest Ecology and Management,
+              and Journal of Vegetation Science. 4 in preparation spanning elephant distribution,
+              protected area integrity, national forest biodiversity, and tiger-prey dynamics.
             </p>
           </div>
         </StyledProfilePanel>

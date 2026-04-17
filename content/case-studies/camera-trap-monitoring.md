@@ -3,7 +3,7 @@ date: '2022-03-01'
 title: 'Camera Trap Monitoring Across Royal Manas, Phibsoo, and Biological Corridor 03'
 region: 'South-central Bhutan across protected areas and corridor landscapes'
 focus: 'Landscape-scale biodiversity monitoring and species documentation'
-impact: 'Established a monitoring network that documented 100+ species and strengthened evidence for conservation management.'
+impact: 'Built and sustained a multi-site camera trap network documenting 100+ species—including tigers, Asian elephants, clouded leopards, and gaur—providing the primary biodiversity evidence base for management and corridor planning decisions across three connected protected landscapes.'
 methods:
   - Camera trap survey design
   - Field deployment and maintenance
@@ -11,6 +11,6 @@ methods:
   - Biodiversity data management
 ---
 
-Established and maintained a camera trap monitoring network across Royal Manas National Park, Phibsoo Wildlife Sanctuary, and Biological Corridor 03. The work built a stronger evidence base for biodiversity monitoring across connected forest landscapes.
+Designed, established, and maintained a systematic camera trap monitoring network across Royal Manas National Park, Phibsoo Wildlife Sanctuary, and Biological Corridor 03—three interconnected protected landscapes spanning Bhutan's subtropical southern belt.
 
-The network documented more than 100 species and supported ongoing conservation planning, field coordination, and management decision-making in a high-value landscape.
+The network documented more than 100 wildlife species, including charismatic megafauna (tiger, Asian elephant, clouded leopard, gaur) and range-restricted or poorly-known taxa. Data directly informed management decisions, conservation reporting, and programme progress under the IKI Living Landscape Project and Bhutan for Life.

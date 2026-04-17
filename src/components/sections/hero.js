@@ -111,19 +111,20 @@ const Hero = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const one = <h1>Professional Portfolio</h1>;
+  const one = <h1>Research &amp; Conservation</h1>;
   const two = <h2 className="big-heading">Wangdi.</h2>;
   const three = (
     <h3 className="big-heading">
-      Senior Forestry Officer working at the intersection of biodiversity, climate, and forest
-      governance.
+      Ecologist and forest governance professional quantifying biodiversity, connectivity, and
+      climate risk across Bhutan’s protected landscapes.
     </h3>
   );
   const four = (
     <p>
-      Public-sector forestry and environmental management professional with 5+ years of experience
-      in Bhutan’s forest governance system, focused on evidence-based conservation planning, NWFP
-      governance, GIS and remote sensing, ecological research, and climate-responsive management.
+      Research-active conservation practitioner embedded in Bhutan’s public forest governance system
+      for 5+ years. Work spans field ecology, geospatial analysis, species distribution modelling,
+      and peer-reviewed publication across wildlife, forest, and climate systems—translating
+      ecological evidence into conservation planning and management decisions.
     </p>
   );
   const five = (
@@ -133,8 +134,8 @@ const Hero = () => {
         <span className="impact-label">Years in public-sector forestry</span>
       </div>
       <div className="impact-item">
-        <span className="impact-value">Nu. 35M+</span>
-        <span className="impact-label">Conservation budgets managed</span>
+        <span className="impact-value">11</span>
+        <span className="impact-label">Publications &amp; manuscripts</span>
       </div>
       <div className="impact-item">
         <span className="impact-value">100+</span>

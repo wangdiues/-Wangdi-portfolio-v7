@@ -81,6 +81,25 @@ const StyledPublication = styled.li`
     ${({ theme }) => theme.mixins.inlineLink};
   }
 
+  .publication-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin: 14px 0 0;
+    list-style: none;
+
+    li {
+      padding: 3px 9px;
+      border: 1px solid rgba(156, 207, 99, 0.3);
+      border-radius: 999px;
+      color: var(--green);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.03em;
+    }
+  }
+
   .publication-link {
     ${({ theme }) => theme.mixins.flexCenter};
     margin-left: auto;
@@ -109,6 +128,7 @@ const Publications = () => {
               status
               year
               external
+              tags
             }
             html
           }
@@ -117,7 +137,14 @@ const Publications = () => {
     }
   `);
 
-  const publications = data.publications.edges.filter(({ node }) => node);
+  const statusOrder = { Published: 0, 'Under Review': 1, 'In Preparation': 2 };
+  const publications = data.publications.edges
+    .filter(({ node }) => node)
+    .sort((a, b) => {
+      const sa = statusOrder[a.node.frontmatter.status] ?? 3;
+      const sb = statusOrder[b.node.frontmatter.status] ?? 3;
+      return sa - sb;
+    });
   const revealTitle = useRef(null);
   const revealCards = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -140,7 +167,7 @@ const Publications = () => {
       <ul className="publications-grid">
         {publications.map(({ node }, index) => {
           const { frontmatter, html } = node;
-          const { title, authors, venue, status, year, external } = frontmatter;
+          const { title, authors, venue, status, year, external, tags } = frontmatter;
 
           return (
             <StyledPublication key={index} ref={el => (revealCards.current[index] = el)}>
@@ -164,6 +191,13 @@ const Publications = () => {
                   className="publication-description"
                   dangerouslySetInnerHTML={{ __html: html }}
                 />
+                {tags && tags.length > 0 && (
+                  <ul className="publication-tags">
+                    {tags.map((tag, i) => (
+                      <li key={i}>{tag}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </StyledPublication>
           );
