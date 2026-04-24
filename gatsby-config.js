@@ -1,5 +1,5 @@
 const config = require('./src/config');
-const pathPrefix = '/-Wangdi-portfolio-v7';
+const pathPrefix = '/Wangdi-portfolio-v7';
 
 module.exports = {
   pathPrefix,
