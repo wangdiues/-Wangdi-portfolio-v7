@@ -1,0 +1,8 @@
+# Supporting Information to the paper Wangdi, W., R. Subedi, and K. Choden. Vegetation community composition and species-environment relationships along an elevational gradient in south-central Bhutan. Journal of Vegetation Science.
+# Appendix S9. Beta diversity metrics.
+
+stratum,mean_alpha,gamma_richness,beta_whittaker
+Herbs,1.7857142857142858,134,75.04
+Regeneration,1.9952153110047848,109,54.63
+Shrubs,4.7727272727272725,114,23.89
+Trees,5.3031674208144794,222,41.86

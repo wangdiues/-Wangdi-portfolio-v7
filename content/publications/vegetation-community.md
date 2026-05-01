@@ -5,7 +5,7 @@ status: 'Under Review'
 title: 'Vegetation Community Composition and Species–Environment Relationships Along an Elevational Gradient in South-Central Bhutan'
 authors: 'Wangdi et al.'
 venue: 'Journal of Vegetation Science'
-pdf: '/publications/01_manuscript_jvs.pdf'
+pdf: '/publications/vegetation-community-main.pdf'
 tags:
   - Elevational gradient
   - Community ecology

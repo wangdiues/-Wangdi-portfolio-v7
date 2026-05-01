@@ -5,6 +5,8 @@ status: 'Published'
 title: 'Diversity of Aquatic Beetles Along Altitudinal Gradients and Water Quality Parameters'
 authors: 'Wangdi et al.'
 venue: 'Journal of Renewable Natural Resources Bhutan'
+pdf: '/publications/aquatic-beetles.pdf'
+linkLabel: 'View Article'
 tags:
   - Aquatic beetles
   - Altitudinal gradient

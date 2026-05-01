@@ -99,6 +99,16 @@ const StyledPublication = styled.li`
       border-color: var(--dark-slate);
       color: var(--slate);
     }
+
+    &.status-professional-report {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    &.status-supplementary-file {
+      border-color: var(--pink);
+      color: var(--pink);
+    }
   }
 
   .year {
@@ -209,6 +219,7 @@ const Publications = () => {
               year
               external
               pdf
+              linkLabel
               tags
             }
             html
@@ -218,7 +229,13 @@ const Publications = () => {
     }
   `);
 
-  const statusOrder = { Published: 0, 'Under Review': 1, 'In Preparation': 2 };
+  const statusOrder = {
+    Published: 0,
+    'Under Review': 1,
+    'In Preparation': 2,
+    'Professional Report': 3,
+    'Supplementary File': 4,
+  };
   const publications = data.publications.edges
     .filter(({ node }) => node)
     .sort((a, b) => {
@@ -226,7 +243,12 @@ const Publications = () => {
       const sb = statusOrder[b.node.frontmatter.status] ?? 3;
       return sa - sb;
     });
-  const filters = ['All', 'Published', 'Under Review', 'In Preparation'];
+  const filters = [
+    'All',
+    ...Array.from(new Set(publications.map(({ node }) => node.frontmatter.status))).sort(
+      (a, b) => (statusOrder[a] ?? 99) - (statusOrder[b] ?? 99),
+    ),
+  ];
   const filteredPublications =
     activeFilter === 'All'
       ? publications
@@ -266,7 +288,17 @@ const Publications = () => {
       <ul className="publications-grid">
         {filteredPublications.map(({ node }, index) => {
           const { frontmatter, html } = node;
-          const { title, authors, venue, status, year, external, pdf, tags } = frontmatter;
+          const {
+            title,
+            authors,
+            venue,
+            status,
+            year,
+            external,
+            pdf,
+            linkLabel,
+            tags,
+          } = frontmatter;
           const primaryLink = pdf ? withPrefix(pdf) : external;
           const statusClass = `status-${status.toLowerCase().replace(/\s+/g, '-')}`;
           const openPrimaryLink = () => {
@@ -330,7 +362,7 @@ const Publications = () => {
                     aria-label={`View PDF: ${title}`}
                     onClick={event => event.stopPropagation()}>
                     <Icon name="External" />
-                    View Manuscript
+                    {linkLabel || 'View Manuscript'}
                   </a>
                 )}
               </div>

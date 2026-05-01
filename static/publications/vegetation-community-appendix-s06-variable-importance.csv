@@ -1,0 +1,30 @@
+# Supporting Information to the paper Wangdi, W., R. Subedi, and K. Choden. Vegetation community composition and species-environment relationships along an elevational gradient in south-central Bhutan. Journal of Vegetation Science.
+# Appendix S6. Variable importance outputs.
+
+model,variable,importance
+RF,shrubs_shannon,11.04924793439877
+RF,shrubs_richness,9.690098702330609
+RF,temperature,9.3434838214038
+RF,elevation,7.993512399200961
+RF,eto,7.526409941157743
+RF,latitude,4.5553872203098145
+RF,water_balance,3.322220815150205
+RF,precipitation,3.136809058034719
+RF,longitude,1.17971018194682
+RF,aspect,0.2468529399893049
+RF,slope,-0.13555036630230152
+RF,trees_richness,-0.14435238262685587
+RF,trees_shannon,-1.1249452265345472
+XGBoost,shrubs_shannon,0.18643503425928198
+XGBoost,elevation,0.11203291379612056
+XGBoost,eto,0.10589144233521668
+XGBoost,longitude,0.09830064724477958
+XGBoost,temperature,0.07173203845164387
+XGBoost,trees_shannon,0.0709650666109835
+XGBoost,latitude,0.07046674741580829
+XGBoost,aspect,0.05980122187169833
+XGBoost,precipitation,0.059726363361616054
+XGBoost,shrubs_richness,0.05965105932475852
+XGBoost,water_balance,0.04507919506247004
+XGBoost,slope,0.04217379982482988
+XGBoost,trees_richness,0.017744470440792727

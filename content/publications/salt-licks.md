@@ -6,6 +6,8 @@ title: 'Analysis of Physical and Chemical Properties of Natural Salt Licks and D
 authors: 'Wangdi et al.'
 venue: 'Journal of Renewable Natural Resources Bhutan'
 external: 'https://www.bjnrd.org/index.php/bjnrd/article/view/80/77'
+pdf: '/publications/salt-licks.pdf'
+linkLabel: 'View Article'
 tags:
   - Salt licks
   - Wildlife ecology

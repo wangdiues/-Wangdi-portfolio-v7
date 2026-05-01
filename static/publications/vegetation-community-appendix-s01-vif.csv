@@ -1,0 +1,24 @@
+# Supporting Information to the paper Wangdi, W., R. Subedi, and K. Choden. Vegetation community composition and species-environment relationships along an elevational gradient in south-central Bhutan. Journal of Vegetation Science.
+# Appendix S1. Variance inflation factor screening by stratum.
+
+variable,vif,stratum
+aspect,1.02,herbs.csv
+eto,1.63,herbs.csv
+latitude,1.64,herbs.csv
+longitude,1.17,herbs.csv
+slope,1.15,herbs.csv
+aspect,1.02,regen.csv
+eto,1.64,regen.csv
+latitude,1.65,regen.csv
+longitude,1.18,regen.csv
+slope,1.16,regen.csv
+aspect,1.02,shrubs.csv
+eto,1.66,shrubs.csv
+latitude,1.71,shrubs.csv
+longitude,1.15,shrubs.csv
+slope,1.13,shrubs.csv
+aspect,1.02,trees.csv
+eto,1.6,trees.csv
+latitude,1.6,trees.csv
+longitude,1.17,trees.csv
+slope,1.15,trees.csv

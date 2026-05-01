@@ -1,0 +1,8 @@
+# Supporting Information to the paper Wangdi, W., R. Subedi, and K. Choden. Vegetation community composition and species-environment relationships along an elevational gradient in south-central Bhutan. Journal of Vegetation Science.
+# Appendix S10. Community matrix diagnostics.
+
+stratum,n_sites,n_species,total_abundance,matrix_density
+Trees,221,222,2134,2.4
+Shrubs,209,114,10312.3,4
+Herbs,210,134,4769,1.3
+Regeneration,211,109,4714.5,1.8

@@ -5,6 +5,7 @@ status: 'In Preparation'
 title: 'Community Assembly and Environmental Filtering Along a Disturbance-Climate Gradient in a Himalayan Tiger Landscape'
 authors: 'Wangdi et al.'
 venue: 'Manuscript in preparation'
+pdf: '/publications/community-assembly-disturbance-climate-gradient.pdf'
 tags:
   - Community assembly
   - Environmental filtering
