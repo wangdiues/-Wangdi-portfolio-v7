@@ -1,6 +1,7 @@
 ---
 date: '2026-04-04'
 year: '2026'
+category: 'Research Publication'
 status: 'In Preparation'
 title: 'Spatiotemporal Risk Partitioning Among Tigers, Prey, and Human Activity in South-Central Bhutan'
 authors: 'Wangdi et al.'

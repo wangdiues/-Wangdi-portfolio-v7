@@ -1,6 +1,7 @@
 ---
 date: '2026-04-07'
 year: '2026'
+category: 'Research Publication'
 status: 'Under Review'
 title: 'Vegetation Community Composition and Species–Environment Relationships Along an Elevational Gradient in South-Central Bhutan'
 authors: 'Wangdi et al.'

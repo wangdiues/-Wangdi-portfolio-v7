@@ -218,8 +218,21 @@ const StyledPublication = styled.li`
   }
 `;
 
+const CATEGORY_FILTERS = [
+  { id: 'all', label: 'All' },
+  { id: 'Research Publication', label: 'Research Publication' },
+  { id: 'Management Plan', label: 'Management Plan' },
+  { id: 'C2C Strategy', label: 'C2C Strategy' },
+];
+
+const getCategory = frontmatter =>
+  frontmatter.category ||
+  (frontmatter.status === 'Management Plan' || frontmatter.status === 'C2C Strategy'
+    ? frontmatter.status
+    : 'Research Publication');
+
 const Publications = () => {
-  const [activeFilter, setActiveFilter] = useState('All');
+  const [activeFilter, setActiveFilter] = useState('all');
   const data = useStaticQuery(graphql`
     query {
       publications: allMarkdownRemark(
@@ -266,8 +279,8 @@ const Publications = () => {
   const publications = data.publications.edges
     .filter(({ node }) => node)
     .sort((a, b) => {
-      const ca = categoryOrder[a.node.frontmatter.category || 'Research Publication'] ?? 9;
-      const cb = categoryOrder[b.node.frontmatter.category || 'Research Publication'] ?? 9;
+      const ca = categoryOrder[getCategory(a.node.frontmatter)] ?? 9;
+      const cb = categoryOrder[getCategory(b.node.frontmatter)] ?? 9;
       if (ca !== cb) {
         return ca - cb;
       }
@@ -276,18 +289,15 @@ const Publications = () => {
       const sb = statusOrder[b.node.frontmatter.status] ?? 3;
       return sa - sb;
     });
-  const filters = [
-    'All',
-    ...Array.from(
-      new Set(publications.map(({ node }) => node.frontmatter.category || 'Research Publication')),
-    ).sort((a, b) => (categoryOrder[a] ?? 99) - (categoryOrder[b] ?? 99)),
-  ];
+  const filters = CATEGORY_FILTERS.filter(
+    filter =>
+      filter.id === 'all' ||
+      publications.some(({ node }) => getCategory(node.frontmatter) === filter.id),
+  );
   const filteredPublications =
-    activeFilter === 'All'
+    activeFilter === 'all'
       ? publications
-      : publications.filter(
-        ({ node }) => (node.frontmatter.category || 'Research Publication') === activeFilter,
-      );
+      : publications.filter(({ node }) => getCategory(node.frontmatter) === activeFilter);
   const revealTitle = useRef(null);
   const revealCards = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -310,12 +320,16 @@ const Publications = () => {
       <div className="publication-filters" aria-label="Filter publications by category">
         {filters.map(filter => (
           <button
-            className={`filter-button${activeFilter === filter ? ' active' : ''}`}
-            key={filter}
+            className={`filter-button${activeFilter === filter.id ? ' active' : ''}`}
+            key={filter.id}
             type="button"
-            onClick={() => setActiveFilter(filter)}
-            aria-pressed={activeFilter === filter}>
-            {filter}
+            onClick={event => {
+              event.preventDefault();
+              event.stopPropagation();
+              setActiveFilter(filter.id);
+            }}
+            aria-pressed={activeFilter === filter.id}>
+            {filter.label}
           </button>
         ))}
       </div>
@@ -327,7 +341,6 @@ const Publications = () => {
             title,
             authors,
             venue,
-            category,
             status,
             year,
             external,
@@ -337,7 +350,7 @@ const Publications = () => {
             tags,
           } = frontmatter;
           const primaryLink = pdf ? withPrefix(pdf) : external;
-          const categoryLabel = category || 'Research Publication';
+          const categoryLabel = getCategory(frontmatter);
           const actionLinks =
             links && links.length > 0
               ? links
@@ -358,7 +371,7 @@ const Publications = () => {
           };
 
           return (
-            <StyledPublication key={index} ref={el => (revealCards.current[index] = el)}>
+            <StyledPublication key={title} ref={el => (revealCards.current[index] = el)}>
               <div
                 className={`publication-inner${primaryLink ? ' is-clickable' : ''}`}
                 role={primaryLink ? 'link' : undefined}

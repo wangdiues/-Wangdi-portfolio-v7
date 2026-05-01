@@ -1,6 +1,7 @@
 ---
 date: '2026-04-11'
 year: '2026'
+category: 'Research Publication'
 status: 'In Preparation'
 title: 'Movement States and Seasonal Search Dynamics of Asian Elephants'
 authors: 'Wangdi et al.'

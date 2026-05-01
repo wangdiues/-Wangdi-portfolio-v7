@@ -1,6 +1,7 @@
 ---
 date: '2021-06-01'
 year: '2021'
+category: 'Research Publication'
 status: 'Published'
 title: 'Analysis of Physical and Chemical Properties of Natural Salt Licks and Determination of Animal Presence'
 authors: 'Wangdi et al.'

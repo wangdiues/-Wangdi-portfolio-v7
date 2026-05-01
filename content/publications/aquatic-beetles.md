@@ -1,6 +1,7 @@
 ---
 date: '2021-05-01'
 year: '2021'
+category: 'Research Publication'
 status: 'Published'
 title: 'Diversity of Aquatic Beetles Along Altitudinal Gradients and Water Quality Parameters'
 authors: 'Wangdi et al.'

@@ -1,6 +1,7 @@
 ---
 date: '2026-04-15'
 year: '2026'
+category: 'Research Publication'
 status: 'Under Review'
 title: 'Integrating Biodiversity, Structural Complexity, and Canopy Dynamics Across a National Forest Gradient in Bhutan: Implications for Monitoring and Management'
 authors: 'Wangdi, Laxmi Sagar, Sangay Chedup, Sangay Dorjee & Tashi Waiba Norbu'

@@ -1,6 +1,7 @@
 ---
 date: '2026-04-03'
 year: '2026'
+category: 'Research Publication'
 status: 'In Preparation'
 title: 'Community Assembly and Environmental Filtering Along a Disturbance-Climate Gradient in a Himalayan Tiger Landscape'
 authors: 'Wangdi et al.'

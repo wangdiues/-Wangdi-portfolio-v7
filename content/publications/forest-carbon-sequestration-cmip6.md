@@ -1,6 +1,7 @@
 ---
 date: '2026-04-10'
 year: '2026'
+category: 'Research Publication'
 status: 'In Preparation'
 title: 'Forest Carbon Sequestration Potential under CMIP6 Scenarios'
 authors: 'Wangdi et al.'

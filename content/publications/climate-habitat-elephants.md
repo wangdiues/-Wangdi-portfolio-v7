@@ -1,6 +1,7 @@
 ---
 date: '2026-04-16'
 year: '2026'
+category: 'Research Publication'
 status: 'Under Review'
 title: 'Climate-driven Habitat Changes and Refugia Dynamics for Asian Elephants in Bhutan under CMIP6 Scenarios'
 authors: 'Wangdi & Laxmi Sagar'

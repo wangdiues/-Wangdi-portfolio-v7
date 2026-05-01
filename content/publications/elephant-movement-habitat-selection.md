@@ -1,6 +1,7 @@
 ---
 date: '2026-04-12'
 year: '2026'
+category: 'Research Publication'
 status: 'In Preparation'
 title: 'Movement Ecology and Habitat Selection of Asian Elephants in the Gelephu-Sarpang Region'
 authors: 'Wangdi et al.'

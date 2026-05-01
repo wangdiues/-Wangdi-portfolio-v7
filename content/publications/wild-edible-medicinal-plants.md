@@ -1,6 +1,7 @@
 ---
 date: '2026-04-09'
 year: '2026'
+category: 'Research Publication'
 status: 'In Preparation'
 title: 'Wild Edible and Medicinal Plants'
 authors: 'Wangdi et al.'
