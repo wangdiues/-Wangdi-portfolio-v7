@@ -24,8 +24,9 @@ const StyledProject = styled.li`
   @media (max-width: 768px) {
     ${({ theme }) => theme.mixins.boxShadow};
     display: block;
+    border: 1px solid var(--border-gold);
     border-radius: var(--border-radius);
-    background: rgba(22, 48, 42, 0.82);
+    background: linear-gradient(180deg, rgba(34, 31, 58, 0.82), rgba(12, 10, 24, 0.92));
   }
 
   &:not(:last-of-type) {
@@ -136,8 +137,9 @@ const StyledProject = styled.li`
     position: relative;
     z-index: 2;
     padding: 25px;
+    border: 1px solid rgba(201, 162, 39, 0.12);
     border-radius: var(--border-radius);
-    background-color: var(--light-navy);
+    background: linear-gradient(180deg, rgba(34, 31, 58, 0.92), rgba(18, 16, 42, 0.88));
     color: var(--light-slate);
     font-size: var(--fz-lg);
 
@@ -199,8 +201,9 @@ const StyledProject = styled.li`
     position: relative;
     z-index: 1;
     padding: 32px;
+    border: 1px solid var(--border-gold);
     border-radius: var(--border-radius);
-    background: linear-gradient(180deg, rgba(39, 69, 59, 0.95), rgba(22, 48, 42, 0.88));
+    background: linear-gradient(180deg, rgba(34, 31, 58, 0.92), rgba(12, 10, 24, 0.92));
 
     @media (max-width: 768px) {
       opacity: 1;
@@ -219,7 +222,7 @@ const StyledProject = styled.li`
     }
 
     .panel-value {
-      color: var(--white);
+      color: var(--ivory);
       font-size: var(--fz-lg);
       line-height: 1.5;
     }

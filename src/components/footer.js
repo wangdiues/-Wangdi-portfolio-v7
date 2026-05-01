@@ -9,6 +9,7 @@ const StyledFooter = styled.footer`
   height: auto;
   min-height: 70px;
   padding: 15px;
+  border-top: 1px solid rgba(201, 162, 39, 0.12);
   text-align: center;
 `;
 
@@ -46,7 +47,9 @@ const StyledCredit = styled.div`
   line-height: 1.8;
 
   .title {
-    color: var(--lightest-slate);
+    color: var(--green);
+    font-family: var(--font-display);
+    font-size: var(--fz-lg);
   }
 `;
 

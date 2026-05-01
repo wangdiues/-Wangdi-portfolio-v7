@@ -5,6 +5,8 @@ import TransitionStyles from './TransitionStyles';
 import PrismStyles from './PrismStyles';
 
 const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap');
+
   ${fonts};
   ${variables};
 
@@ -21,8 +23,8 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::selection {
-    background-color: var(--lightest-navy);
-    color: var(--lightest-slate);
+    background-color: rgba(201, 162, 39, 0.28);
+    color: var(--white);
   }
 
   /* Provide basic, default focus styles.*/
@@ -74,7 +76,11 @@ const GlobalStyle = createGlobalStyle`
     overflow-x: hidden;
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background-color: var(--navy);
+    background-color: var(--dark-navy);
+    background-image:
+      linear-gradient(135deg, rgba(155, 28, 46, 0.1) 0%, transparent 34%),
+      linear-gradient(180deg, rgba(201, 162, 39, 0.055), transparent 22rem),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cpath d='M0 72L72 0' stroke='%23c9a227' stroke-opacity='.035' stroke-width='1'/%3E%3C/svg%3E");
     color: var(--slate);
     font-family: var(--font-sans);
     font-size: var(--fz-xl);
@@ -102,9 +108,25 @@ const GlobalStyle = createGlobalStyle`
         user-select: none;
       }
     }
+
+    &:before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.42;
+      background-image: linear-gradient(
+        90deg,
+        rgba(201, 162, 39, 0.035) 0 1px,
+        transparent 1px 84px
+      );
+    }
   }
 
   #root {
+    position: relative;
+    z-index: 1;
     min-height: 100vh;
     display: grid;
     grid-template-rows: 1fr auto;
@@ -169,6 +191,14 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.1;
   }
 
+  h1,
+  h2,
+  .big-heading,
+  .medium-heading {
+    font-family: var(--font-display);
+    letter-spacing: 0;
+  }
+
   .big-heading {
     margin: 0;
     font-size: clamp(40px, 8vw, 80px);
@@ -213,7 +243,7 @@ const GlobalStyle = createGlobalStyle`
       width: 300px;
       height: 1px;
       margin-left: 20px;
-      background-color: var(--lightest-navy);
+      background: linear-gradient(90deg, var(--green), transparent);
 
       @media (max-width: 1080px) {
         width: 200px;
@@ -292,6 +322,7 @@ const GlobalStyle = createGlobalStyle`
 
   p {
     margin: 0 0 15px 0;
+    color: var(--light-slate);
 
     &:last-child,
     &:last-of-type {

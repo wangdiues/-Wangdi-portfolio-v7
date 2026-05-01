@@ -8,11 +8,11 @@ import { usePrefersReducedMotion } from '@hooks';
 const credentialsGlow = keyframes`
   0% {
     background-position: 0% 50%;
-    text-shadow: 0 0 0 rgba(100, 255, 218, 0);
+    text-shadow: 0 0 0 rgba(201, 162, 39, 0);
   }
   100% {
     background-position: 100% 50%;
-    text-shadow: 0 0 18px rgba(100, 255, 218, 0.22);
+    text-shadow: 0 0 18px rgba(240, 200, 72, 0.22);
   }
 `;
 
@@ -84,7 +84,8 @@ const StyledProfilePanel = styled.div`
   height: fit-content;
   padding: 28px 26px;
   border-radius: var(--border-radius);
-  background: linear-gradient(180deg, rgba(22, 48, 42, 0.92), rgba(14, 31, 26, 0.92));
+  border: 1px solid var(--border-gold);
+  background: linear-gradient(180deg, rgba(34, 31, 58, 0.88), rgba(12, 10, 24, 0.92));
 
   .photo-wrapper {
     display: flex;
@@ -95,7 +96,8 @@ const StyledProfilePanel = styled.div`
       width: 140px;
       height: 140px;
       border-radius: 50%;
-      border: 3px solid var(--green);
+      border: 2px solid rgba(240, 200, 72, 0.8);
+      box-shadow: 0 0 0 6px rgba(201, 162, 39, 0.08), 0 16px 36px rgba(0, 0, 0, 0.28);
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -109,7 +111,13 @@ const StyledProfilePanel = styled.div`
     &.credentials-title {
       width: fit-content;
       color: transparent;
-      background: linear-gradient(90deg, var(--white), var(--green), var(--white));
+      background: linear-gradient(
+        90deg,
+        var(--white),
+        var(--green),
+        var(--gold-light),
+        var(--white)
+      );
       background-size: 220% 100%;
       background-clip: text;
       -webkit-background-clip: text;
@@ -120,7 +128,7 @@ const StyledProfilePanel = styled.div`
   .panel-group + .panel-group {
     margin-top: 22px;
     padding-top: 22px;
-    border-top: 1px solid var(--lightest-navy);
+    border-top: 1px solid rgba(201, 162, 39, 0.14);
   }
 
   .panel-label {

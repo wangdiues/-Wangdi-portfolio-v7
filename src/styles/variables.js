@@ -2,21 +2,29 @@ import { css } from 'styled-components';
 
 const variables = css`
   :root {
-    --dark-navy: #081410;
-    --navy: #0e1f1a;
-    --light-navy: #16302a;
-    --lightest-navy: #27453b;
-    --navy-shadow: rgba(3, 10, 8, 0.55);
-    --dark-slate: #617167;
-    --slate: #93a398;
-    --light-slate: #b7c4ba;
-    --lightest-slate: #d9e2da;
-    --white: #f4f7f2;
-    --green: #9ccf63;
-    --green-tint: rgba(156, 207, 99, 0.12);
-    --pink: #d8a85b;
-    --blue: #79b6a0;
+    --dark-navy: #07060d;
+    --navy: #0c0a18;
+    --light-navy: #12102a;
+    --lightest-navy: #2b263f;
+    --navy-shadow: rgba(0, 0, 0, 0.5);
+    --dark-slate: #6f6a79;
+    --slate: #a7a095;
+    --light-slate: rgba(240, 236, 224, 0.72);
+    --lightest-slate: #f0ece0;
+    --white: #fffaf0;
+    --green: #c9a227;
+    --green-tint: rgba(201, 162, 39, 0.13);
+    --pink: #9b1c2e;
+    --blue: #27a08e;
+    --gold: #c9a227;
+    --gold-light: #f0c848;
+    --crimson: #9b1c2e;
+    --ivory: #f0ece0;
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-md: rgba(255, 255, 255, 0.09);
+    --border-gold: rgba(201, 162, 39, 0.2);
 
+    --font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
     --font-sans: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui,
       sans-serif;
     --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
@@ -30,7 +38,7 @@ const variables = css`
     --fz-xxl: 22px;
     --fz-heading: 32px;
 
-    --border-radius: 4px;
+    --border-radius: 6px;
     --nav-height: 100px;
     --nav-scroll-height: 70px;
 

@@ -8,14 +8,14 @@ import { usePrefersReducedMotion } from '@hooks';
 const nameGlow = keyframes`
   0% {
     background-position: 0% 50%;
-    text-shadow: 0 0 0 rgba(156, 207, 99, 0);
+    text-shadow: 0 0 0 rgba(201, 162, 39, 0);
   }
   50% {
-    text-shadow: 0 0 28px rgba(156, 207, 99, 0.22);
+    text-shadow: 0 0 28px rgba(240, 200, 72, 0.24);
   }
   100% {
     background-position: 100% 50%;
-    text-shadow: 0 0 0 rgba(156, 207, 99, 0);
+    text-shadow: 0 0 0 rgba(201, 162, 39, 0);
   }
 `;
 
@@ -26,6 +26,17 @@ const StyledHeroSection = styled.section`
   min-height: 100vh;
   height: 100vh;
   padding: 0;
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    inset: 12vh -8vw auto auto;
+    width: min(42rem, 70vw);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.5), transparent);
+    opacity: 0.6;
+  }
 
   @media (max-height: 700px) and (min-width: 700px), (max-width: 360px) {
     height: auto;
@@ -38,6 +49,8 @@ const StyledHeroSection = styled.section`
     font-family: var(--font-mono);
     font-size: clamp(var(--fz-sm), 5vw, var(--fz-md));
     font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
 
     @media (max-width: 480px) {
       margin: 0 0 20px 2px;
@@ -54,7 +67,7 @@ const StyledHeroSection = styled.section`
         90deg,
         var(--lightest-slate),
         var(--green),
-        var(--blue),
+        var(--gold-light),
         var(--lightest-slate)
       );
       background-size: 240% 100%;
@@ -80,6 +93,7 @@ const StyledHeroSection = styled.section`
   p {
     margin: 20px 0 0;
     max-width: 620px;
+    color: rgba(240, 236, 224, 0.74);
   }
 
   .cta-group {
@@ -116,15 +130,16 @@ const StyledHeroSection = styled.section`
 
   .impact-item {
     padding: 18px 18px 16px;
-    border: 1px solid var(--lightest-navy);
+    border: 1px solid var(--border-gold);
     border-radius: var(--border-radius);
-    background: rgba(22, 48, 42, 0.45);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025));
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
   }
 
   .impact-value {
     display: block;
     margin-bottom: 6px;
-    color: var(--white);
+    color: var(--gold-light);
     font-size: clamp(24px, 4vw, 30px);
     font-weight: 600;
   }

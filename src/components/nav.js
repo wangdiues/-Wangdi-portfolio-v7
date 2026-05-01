@@ -17,11 +17,12 @@ const StyledHeader = styled.header`
   padding: 0px 50px;
   width: 100%;
   height: var(--nav-height);
-  background-color: rgba(10, 25, 47, 0.85);
+  background: rgba(7, 6, 13, 0.86);
+  border-bottom: 1px solid rgba(201, 162, 39, 0.12);
   filter: none !important;
   pointer-events: auto !important;
   user-select: auto !important;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(18px);
   transition: var(--transition);
 
   @media (max-width: 1080px) {
@@ -38,8 +39,8 @@ const StyledHeader = styled.header`
       css`
         height: var(--nav-scroll-height);
         transform: translateY(0px);
-        background-color: rgba(10, 25, 47, 0.85);
-        box-shadow: 0 10px 30px -10px var(--navy-shadow);
+        background: rgba(7, 6, 13, 0.94);
+        box-shadow: 0 1px 0 rgba(201, 162, 39, 0.22), 0 14px 34px rgba(0, 0, 0, 0.22);
       `};
 
     ${props =>
@@ -48,7 +49,7 @@ const StyledHeader = styled.header`
       css`
         height: var(--nav-scroll-height);
         transform: translateY(calc(var(--nav-scroll-height) * -1));
-        box-shadow: 0 10px 30px -10px var(--navy-shadow);
+        box-shadow: 0 1px 0 rgba(201, 162, 39, 0.18);
       `};
   }
 `;
@@ -92,7 +93,7 @@ const StyledNav = styled.nav`
             transition: var(--transition);
           }
           polygon {
-            fill: var(--navy);
+            fill: var(--dark-navy);
           }
         }
       }
@@ -100,9 +101,11 @@ const StyledNav = styled.nav`
       &:hover,
       &:focus {
         outline: 0;
-        transform: translate(-4px, -4px);
+        color: var(--gold-light);
+        filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.32));
+        transform: translateY(-2px);
         .hex-container {
-          transform: translate(4px, 3px);
+          transform: translateY(2px);
         }
       }
     }
@@ -130,7 +133,10 @@ const StyledLinks = styled.div`
       font-size: var(--fz-xs);
 
       a {
-        padding: 10px;
+        padding: 10px 11px;
+        color: rgba(240, 236, 224, 0.7);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
 
         &:before {
           content: '0' counter(item) '.';

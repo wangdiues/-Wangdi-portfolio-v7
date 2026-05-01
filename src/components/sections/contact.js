@@ -8,7 +8,17 @@ import { usePrefersReducedMotion } from '@hooks';
 const StyledContactSection = styled.section`
   max-width: 600px;
   margin: 0 auto 100px;
+  position: relative;
   text-align: center;
+
+  &:before {
+    content: '';
+    display: block;
+    width: min(220px, 55vw);
+    height: 1px;
+    margin: 0 auto 42px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+  }
 
   @media (max-width: 768px) {
     margin: 0 auto 50px;
@@ -34,6 +44,7 @@ const StyledContactSection = styled.section`
 
   .title {
     font-size: clamp(40px, 5vw, 60px);
+    color: var(--ivory);
   }
 
   .email-link {
@@ -59,7 +70,7 @@ const StyledContactSection = styled.section`
       transition: color 0.2s ease;
 
       &:hover {
-        color: var(--green);
+        color: var(--gold-light);
       }
 
       svg {

@@ -32,13 +32,14 @@ const StyledPublicationsSection = styled.section`
   .filter-button {
     ${({ theme }) => theme.mixins.smallButton};
     padding: 0.65rem 0.9rem;
-    border-color: var(--lightest-navy);
-    color: var(--light-slate);
+    border-color: var(--border-gold);
+    color: rgba(240, 236, 224, 0.72);
 
     &.active {
       border-color: var(--green);
-      background: var(--green-tint);
-      color: var(--green);
+      background: linear-gradient(180deg, rgba(201, 162, 39, 0.18), rgba(201, 162, 39, 0.08));
+      color: var(--gold-light);
+      box-shadow: inset 0 0 0 1px rgba(240, 200, 72, 0.08);
     }
   }
 `;
@@ -50,9 +51,9 @@ const StyledPublication = styled.li`
     flex-direction: column;
     height: 100%;
     padding: 1.8rem 1.6rem;
-    border: 1px solid transparent;
+    border: 1px solid rgba(201, 162, 39, 0.12);
     border-radius: var(--border-radius);
-    background: rgba(22, 48, 42, 0.82);
+    background: linear-gradient(180deg, rgba(34, 31, 58, 0.82), rgba(12, 10, 24, 0.9));
     transition: var(--transition);
 
     &.is-clickable {
@@ -61,7 +62,7 @@ const StyledPublication = styled.li`
       &:hover,
       &:focus-visible {
         border-color: var(--green);
-        background: rgba(22, 48, 42, 0.96);
+        background: linear-gradient(180deg, rgba(43, 38, 63, 0.9), rgba(12, 10, 24, 0.96));
         transform: translateY(-4px);
         outline: none;
       }
@@ -162,7 +163,7 @@ const StyledPublication = styled.li`
 
     li {
       padding: 3px 9px;
-      border: 1px solid rgba(156, 207, 99, 0.3);
+      border: 1px solid rgba(201, 162, 39, 0.3);
       border-radius: 999px;
       color: var(--green);
       font-family: var(--font-mono);
@@ -206,7 +207,7 @@ const StyledPublication = styled.li`
 
     &:hover,
     &:focus {
-      background: rgba(156, 207, 99, 0.1);
+      background: rgba(201, 162, 39, 0.1);
       outline: none;
     }
 

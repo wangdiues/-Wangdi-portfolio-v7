@@ -73,8 +73,8 @@ const StyledTabButton = styled.button`
   width: 100%;
   height: var(--tab-height);
   padding: 0 20px 2px;
-  border-left: 2px solid var(--lightest-navy);
-  background-color: transparent;
+  border-left: 2px solid rgba(201, 162, 39, 0.14);
+  background-color: ${({ isActive }) => (isActive ? 'rgba(201, 162, 39, 0.08)' : 'transparent')};
   color: ${({ isActive }) => (isActive ? 'var(--green)' : 'var(--slate)')};
   font-family: var(--font-mono);
   font-size: var(--fz-xs);
@@ -89,13 +89,13 @@ const StyledTabButton = styled.button`
     min-width: 120px;
     padding: 0 15px;
     border-left: 0;
-    border-bottom: 2px solid var(--lightest-navy);
+    border-bottom: 2px solid rgba(201, 162, 39, 0.14);
     text-align: center;
   }
 
   &:hover,
   &:focus {
-    background-color: var(--light-navy);
+    background-color: rgba(201, 162, 39, 0.1);
   }
 `;
 
@@ -130,6 +130,10 @@ const StyledTabPanels = styled.div`
   position: relative;
   width: 100%;
   margin-left: 20px;
+  padding: 18px 20px;
+  border: 1px solid rgba(201, 162, 39, 0.12);
+  border-radius: var(--border-radius);
+  background: linear-gradient(180deg, rgba(34, 31, 58, 0.48), rgba(12, 10, 24, 0.5));
 
   @media (max-width: 600px) {
     margin-left: 0;
