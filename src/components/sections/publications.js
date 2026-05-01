@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useStaticQuery, graphql, withPrefix } from 'gatsby';
 import styled from 'styled-components';
 import { Icon } from '@components/icons';
@@ -19,6 +19,28 @@ const StyledPublicationsSection = styled.section`
     width: 100%;
     margin-top: 40px;
   }
+
+  .publication-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .filter-button {
+    ${({ theme }) => theme.mixins.smallButton};
+    padding: 0.65rem 0.9rem;
+    border-color: var(--lightest-navy);
+    color: var(--light-slate);
+
+    &.active {
+      border-color: var(--green);
+      background: var(--green-tint);
+      color: var(--green);
+    }
+  }
 `;
 
 const StyledPublication = styled.li`
@@ -28,8 +50,22 @@ const StyledPublication = styled.li`
     flex-direction: column;
     height: 100%;
     padding: 1.8rem 1.6rem;
+    border: 1px solid transparent;
     border-radius: var(--border-radius);
     background: rgba(22, 48, 42, 0.82);
+    transition: var(--transition);
+
+    &.is-clickable {
+      cursor: pointer;
+
+      &:hover,
+      &:focus-visible {
+        border-color: var(--green);
+        background: rgba(22, 48, 42, 0.96);
+        transform: translateY(-4px);
+        outline: none;
+      }
+    }
   }
 
   .publication-top {
@@ -49,6 +85,20 @@ const StyledPublication = styled.li`
     font-size: var(--fz-xxs);
     letter-spacing: 0.04em;
     text-transform: uppercase;
+
+    &.status-published {
+      background: var(--green);
+      color: var(--dark-navy);
+    }
+
+    &.status-under-review {
+      background: rgba(156, 207, 99, 0.08);
+    }
+
+    &.status-in-preparation {
+      border-color: var(--dark-slate);
+      color: var(--slate);
+    }
   }
 
   .year {
@@ -142,6 +192,7 @@ const StyledPublication = styled.li`
 `;
 
 const Publications = () => {
+  const [activeFilter, setActiveFilter] = useState('All');
   const data = useStaticQuery(graphql`
     query {
       publications: allMarkdownRemark(
@@ -175,6 +226,11 @@ const Publications = () => {
       const sb = statusOrder[b.node.frontmatter.status] ?? 3;
       return sa - sb;
     });
+  const filters = ['All', 'Published', 'Under Review', 'In Preparation'];
+  const filteredPublications =
+    activeFilter === 'All'
+      ? publications
+      : publications.filter(({ node }) => node.frontmatter.status === activeFilter);
   const revealTitle = useRef(null);
   const revealCards = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -194,19 +250,56 @@ const Publications = () => {
         Publications &amp; Manuscripts
       </h2>
 
+      <div className="publication-filters" aria-label="Filter publications by status">
+        {filters.map(filter => (
+          <button
+            className={`filter-button${activeFilter === filter ? ' active' : ''}`}
+            key={filter}
+            type="button"
+            onClick={() => setActiveFilter(filter)}
+            aria-pressed={activeFilter === filter}>
+            {filter}
+          </button>
+        ))}
+      </div>
+
       <ul className="publications-grid">
-        {publications.map(({ node }, index) => {
+        {filteredPublications.map(({ node }, index) => {
           const { frontmatter, html } = node;
           const { title, authors, venue, status, year, external, pdf, tags } = frontmatter;
+          const primaryLink = pdf ? withPrefix(pdf) : external;
+          const statusClass = `status-${status.toLowerCase().replace(/\s+/g, '-')}`;
+          const openPrimaryLink = () => {
+            if (primaryLink) {
+              window.open(primaryLink, '_blank', 'noopener,noreferrer');
+            }
+          };
+          const handleKeyDown = event => {
+            if (primaryLink && (event.key === 'Enter' || event.key === ' ')) {
+              event.preventDefault();
+              openPrimaryLink();
+            }
+          };
 
           return (
             <StyledPublication key={index} ref={el => (revealCards.current[index] = el)}>
-              <div className="publication-inner">
+              <div
+                className={`publication-inner${primaryLink ? ' is-clickable' : ''}`}
+                role={primaryLink ? 'link' : undefined}
+                tabIndex={primaryLink ? 0 : undefined}
+                onClick={openPrimaryLink}
+                onKeyDown={handleKeyDown}>
                 <div className="publication-top">
-                  <span className="status">{status}</span>
+                  <span className={`status ${statusClass}`}>{status}</span>
                   <span className="year">{year}</span>
                   {external ? (
-                    <a className="publication-link" href={external} aria-label={`Open ${title}`}>
+                    <a
+                      className="publication-link"
+                      href={external}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Open ${title}`}
+                      onClick={event => event.stopPropagation()}>
                       <Icon name="External" />
                     </a>
                   ) : null}
@@ -234,7 +327,8 @@ const Publications = () => {
                     href={withPrefix(pdf)}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={`View PDF: ${title}`}>
+                    aria-label={`View PDF: ${title}`}
+                    onClick={event => event.stopPropagation()}>
                     <Icon name="External" />
                     View Manuscript
                   </a>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery, graphql, withPrefix } from 'gatsby';
 import styled from 'styled-components';
 import sr from '@utils/sr';
 import { srConfig } from '@config';
@@ -17,12 +17,15 @@ const StyledProjectsGrid = styled.ul`
 const StyledProject = styled.li`
   position: relative;
   display: grid;
-  grid-gap: 10px;
+  grid-gap: 24px;
   grid-template-columns: repeat(12, 1fr);
-  align-items: center;
+  align-items: stretch;
 
   @media (max-width: 768px) {
     ${({ theme }) => theme.mixins.boxShadow};
+    display: block;
+    border-radius: var(--border-radius);
+    background: rgba(22, 48, 42, 0.82);
   }
 
   &:not(:last-of-type) {
@@ -39,11 +42,10 @@ const StyledProject = styled.li`
 
   &:nth-of-type(odd) {
     .project-content {
-      grid-column: 7 / -1;
+      grid-column: 1 / 7;
       text-align: right;
 
       @media (max-width: 768px) {
-        grid-column: 1 / -1;
         padding: 40px 40px 30px;
         text-align: left;
       }
@@ -67,10 +69,10 @@ const StyledProject = styled.li`
       }
     }
     .project-panel {
-      grid-column: 1 / 7;
+      grid-column: 7 / -1;
 
       @media (max-width: 768px) {
-        grid-column: 1 / -1;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
       }
     }
   }
@@ -78,14 +80,12 @@ const StyledProject = styled.li`
   .project-content {
     position: relative;
     grid-column: 1 / 7;
-    grid-row: 1 / -1;
 
     @media (max-width: 768px) {
       display: flex;
       flex-direction: column;
       justify-content: center;
       height: 100%;
-      grid-column: 1 / -1;
       padding: 40px 40px 30px;
       z-index: 5;
     }
@@ -161,6 +161,11 @@ const StyledProject = styled.li`
     }
   }
 
+  .project-action {
+    ${({ theme }) => theme.mixins.smallButton};
+    margin-top: 18px;
+  }
+
   .project-tech-list {
     display: flex;
     flex-wrap: wrap;
@@ -191,7 +196,6 @@ const StyledProject = styled.li`
   .project-panel {
     ${({ theme }) => theme.mixins.boxShadow};
     grid-column: 7 / -1;
-    grid-row: 1 / -1;
     position: relative;
     z-index: 1;
     padding: 32px;
@@ -199,9 +203,9 @@ const StyledProject = styled.li`
     background: linear-gradient(180deg, rgba(39, 69, 59, 0.95), rgba(22, 48, 42, 0.88));
 
     @media (max-width: 768px) {
-      grid-column: 1 / -1;
       opacity: 1;
       padding: 24px;
+      box-shadow: none;
     }
 
     .panel-label {
@@ -236,6 +240,7 @@ const Featured = () => {
         edges {
           node {
             frontmatter {
+              date
               title
               region
               focus
@@ -274,7 +279,10 @@ const Featured = () => {
         {featuredProjects &&
           featuredProjects.map(({ node }, i) => {
             const { frontmatter, html } = node;
-            const { external, title, region, focus, impact, methods } = frontmatter;
+            const { date, external, title, region, focus, impact, methods } = frontmatter;
+            const year = date ? new Date(date).getFullYear() : null;
+            const reportUrl =
+              external && external.startsWith('/') ? withPrefix(external) : external;
 
             return (
               <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
@@ -283,7 +291,7 @@ const Featured = () => {
                     <p className="project-overline">Flagship Case Study</p>
 
                     <h3 className="project-title">
-                      {external ? <a href={external}>{title}</a> : <span>{title}</span>}
+                      {reportUrl ? <a href={reportUrl}>{title}</a> : <span>{title}</span>}
                     </h3>
 
                     <div
@@ -298,10 +306,27 @@ const Featured = () => {
                         ))}
                       </ul>
                     )}
+
+                    {reportUrl ? (
+                      <a
+                        className="project-action"
+                        href={reportUrl}
+                        target="_blank"
+                        rel="noreferrer">
+                        View Full Report
+                      </a>
+                    ) : null}
                   </div>
                 </div>
 
                 <div className="project-panel">
+                  {year ? (
+                    <div className="panel-item">
+                      <span className="panel-label">Year</span>
+                      <div className="panel-value">{year}</div>
+                    </div>
+                  ) : null}
+
                   <div className="panel-item">
                     <span className="panel-label">Geographic Scope</span>
                     <div className="panel-value">{region}</div>

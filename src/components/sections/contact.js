@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { srConfig, email } from '@config';
+import { srConfig, email, socialMedia } from '@config';
+import { Icon } from '@components/icons';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
 
@@ -42,11 +43,15 @@ const StyledContactSection = styled.section`
 
   .contact-links {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 14px;
+    margin-top: 24px;
 
     a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       color: var(--light-slate);
       font-family: var(--font-mono);
       font-size: var(--fz-xs);
@@ -55,6 +60,11 @@ const StyledContactSection = styled.section`
 
       &:hover {
         color: var(--green);
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
       }
     }
   }
@@ -89,13 +99,12 @@ const Contact = () => {
       </a>
 
       <div className="contact-links">
-        <a
-          href="https://orcid.org/0009-0007-7726-1742"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="ORCID profile">
-          ORCID: 0009-0007-7726-1742
-        </a>
+        {socialMedia.map(({ name, url }) => (
+          <a key={name} href={url} target="_blank" rel="noreferrer" aria-label={`${name} profile`}>
+            <Icon name={name} />
+            {name === 'Linkedin' ? 'LinkedIn' : name}
+          </a>
+        ))}
       </div>
     </StyledContactSection>
   );

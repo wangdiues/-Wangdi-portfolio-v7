@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withPrefix } from 'gatsby';
+import { graphql, useStaticQuery, withPrefix } from 'gatsby';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
 import { navDelay, loaderDelay } from '@utils';
@@ -104,8 +104,18 @@ const StyledHeroSection = styled.section`
 `;
 
 const Hero = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      publications: allMarkdownRemark(
+        filter: { fileAbsolutePath: { regex: "/content/publications/" } }
+      ) {
+        totalCount
+      }
+    }
+  `);
   const [isMounted, setIsMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const publicationCount = data.publications.totalCount;
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -139,7 +149,7 @@ const Hero = () => {
         <span className="impact-label">Years in public-sector forestry</span>
       </div>
       <div className="impact-item">
-        <span className="impact-value">11</span>
+        <span className="impact-value">{publicationCount}</span>
         <span className="impact-label">Publications &amp; manuscripts</span>
       </div>
       <div className="impact-item">

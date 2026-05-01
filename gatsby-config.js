@@ -4,9 +4,9 @@ const pathPrefix = '/Wangdi-portfolio-v7';
 module.exports = {
   pathPrefix,
   siteMetadata: {
-    title: 'Wangdi',
+    title: 'Wangdi | Ecologist & Conservation Researcher',
     description:
-      'Senior Forestry Officer focused on biodiversity, climate-responsive forest management, ecological research, and forest governance in Bhutan.',
+      'Senior Forestry Officer and conservation researcher focused on biodiversity, ecological modeling, climate-responsive forest management, and forest governance in Bhutan.',
     siteUrl: `https://wangdiues.github.io${pathPrefix}`,
     image: '/og.png',
     twitterUsername: '',
