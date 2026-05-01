@@ -100,15 +100,26 @@ const StyledPublication = styled.li`
       color: var(--slate);
     }
 
-    &.status-professional-report {
+    &.status-management-plan {
       border-color: var(--blue);
       color: var(--blue);
     }
 
-    &.status-supplementary-file {
+    &.status-c2c-strategy {
       border-color: var(--pink);
       color: var(--pink);
     }
+  }
+
+  .category {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 16px;
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: var(--fz-xxs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .year {
@@ -171,11 +182,17 @@ const StyledPublication = styled.li`
     height: 20px;
   }
 
+  .publication-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
   .pdf-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-top: 14px;
     padding: 7px 14px;
     border: 1px solid var(--green);
     border-radius: var(--border-radius);
@@ -215,11 +232,16 @@ const Publications = () => {
               title
               authors
               venue
+              category
               status
               year
               external
               pdf
               linkLabel
+              links {
+                label
+                url
+              }
               tags
             }
             html
@@ -233,26 +255,39 @@ const Publications = () => {
     Published: 0,
     'Under Review': 1,
     'In Preparation': 2,
-    'Professional Report': 3,
-    'Supplementary File': 4,
+    'Management Plan': 3,
+    'C2C Strategy': 4,
+  };
+  const categoryOrder = {
+    'Research Publication': 0,
+    'Management Plan': 1,
+    'C2C Strategy': 2,
   };
   const publications = data.publications.edges
     .filter(({ node }) => node)
     .sort((a, b) => {
+      const ca = categoryOrder[a.node.frontmatter.category || 'Research Publication'] ?? 9;
+      const cb = categoryOrder[b.node.frontmatter.category || 'Research Publication'] ?? 9;
+      if (ca !== cb) {
+        return ca - cb;
+      }
+
       const sa = statusOrder[a.node.frontmatter.status] ?? 3;
       const sb = statusOrder[b.node.frontmatter.status] ?? 3;
       return sa - sb;
     });
   const filters = [
     'All',
-    ...Array.from(new Set(publications.map(({ node }) => node.frontmatter.status))).sort(
-      (a, b) => (statusOrder[a] ?? 99) - (statusOrder[b] ?? 99),
-    ),
+    ...Array.from(
+      new Set(publications.map(({ node }) => node.frontmatter.category || 'Research Publication')),
+    ).sort((a, b) => (categoryOrder[a] ?? 99) - (categoryOrder[b] ?? 99)),
   ];
   const filteredPublications =
     activeFilter === 'All'
       ? publications
-      : publications.filter(({ node }) => node.frontmatter.status === activeFilter);
+      : publications.filter(
+        ({ node }) => (node.frontmatter.category || 'Research Publication') === activeFilter,
+      );
   const revealTitle = useRef(null);
   const revealCards = useRef([]);
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -269,10 +304,10 @@ const Publications = () => {
   return (
     <StyledPublicationsSection id="publications">
       <h2 className="numbered-heading" ref={revealTitle}>
-        Publications &amp; Manuscripts
+        Publications, Reports &amp; Strategies
       </h2>
 
-      <div className="publication-filters" aria-label="Filter publications by status">
+      <div className="publication-filters" aria-label="Filter publications by category">
         {filters.map(filter => (
           <button
             className={`filter-button${activeFilter === filter ? ' active' : ''}`}
@@ -292,14 +327,23 @@ const Publications = () => {
             title,
             authors,
             venue,
+            category,
             status,
             year,
             external,
             pdf,
             linkLabel,
+            links,
             tags,
           } = frontmatter;
           const primaryLink = pdf ? withPrefix(pdf) : external;
+          const categoryLabel = category || 'Research Publication';
+          const actionLinks =
+            links && links.length > 0
+              ? links
+              : pdf
+                ? [{ label: linkLabel || 'View Manuscript', url: pdf }]
+                : [];
           const statusClass = `status-${status.toLowerCase().replace(/\s+/g, '-')}`;
           const openPrimaryLink = () => {
             if (primaryLink) {
@@ -337,6 +381,7 @@ const Publications = () => {
                   ) : null}
                 </div>
 
+                <span className="category">{categoryLabel}</span>
                 <h3 className="publication-title">{title}</h3>
                 <div className="publication-meta">
                   <div>{authors}</div>
@@ -353,17 +398,22 @@ const Publications = () => {
                     ))}
                   </ul>
                 )}
-                {pdf && (
-                  <a
-                    className="pdf-link"
-                    href={withPrefix(pdf)}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`View PDF: ${title}`}
-                    onClick={event => event.stopPropagation()}>
-                    <Icon name="External" />
-                    {linkLabel || 'View Manuscript'}
-                  </a>
+                {actionLinks.length > 0 && (
+                  <div className="publication-actions">
+                    {actionLinks.map(({ label, url }) => (
+                      <a
+                        key={`${title}-${url}`}
+                        className="pdf-link"
+                        href={withPrefix(url)}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`${label}: ${title}`}
+                        onClick={event => event.stopPropagation()}>
+                        <Icon name="External" />
+                        {label}
+                      </a>
+                    ))}
+                  </div>
                 )}
               </div>
             </StyledPublication>

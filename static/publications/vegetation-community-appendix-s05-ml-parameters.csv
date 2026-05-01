@@ -1,6 +1,0 @@
-# Supporting Information to the paper Wangdi, W., R. Subedi, and K. Choden. Vegetation community composition and species-environment relationships along an elevational gradient in south-central Bhutan. Journal of Vegetation Science.
-# Appendix S5. Machine-learning model parameters.
-
-model,ntree_nrounds,max_depth,eta,subsample,colsample,cv_folds,seed
-Random Forest,500,default,NA,NA,NA,5,42
-XGBoost,100,4,0.1,0.8,0.8,5,42

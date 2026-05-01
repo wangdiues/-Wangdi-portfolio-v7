@@ -1,8 +1,0 @@
-# Supporting Information to the paper Wangdi, W., R. Subedi, and K. Choden. Vegetation community composition and species-environment relationships along an elevational gradient in south-central Bhutan. Journal of Vegetation Science.
-# Appendix S2. Full PERMANOVA and dispersion outputs.
-
-stratum,group_variable,n_sites,n_groups,permanova_R2,permanova_F,permanova_p,permanova_sig,dispersion_F,dispersion_p,homogeneous_dispersion
-Trees,forest_type,216,3,0.0307,3.38,0.001,TRUE,1.24,0.291,TRUE
-Shrubs,forest_type,194,3,0.0502,5.05,0.001,TRUE,12.93,0.001,FALSE
-Herbs,forest_type,206,3,0.0165,1.7,0.001,TRUE,15.05,0.001,FALSE
-Regen,forest_type,205,3,0.0208,2.14,0.001,TRUE,1.17,0.319,TRUE

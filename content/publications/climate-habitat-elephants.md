@@ -6,6 +6,11 @@ title: 'Climate-driven Habitat Changes and Refugia Dynamics for Asian Elephants 
 authors: 'Wangdi & Laxmi Sagar'
 venue: 'Ecology & Evolution'
 pdf: '/publications/climate-refugia-asian-elephants-main.pdf'
+links:
+  - label: 'View Main'
+    url: '/publications/climate-refugia-asian-elephants-main.pdf'
+  - label: 'View Supplement'
+    url: '/publications/climate-refugia-asian-elephants-supplementary.pdf'
 tags:
   - CMIP6
   - Climate refugia
@@ -13,4 +18,4 @@ tags:
   - Ensemble SDM
 ---
 
-Modelled present and future habitat suitability for Asian elephants across Bhutan using an ensemble of four algorithms (GLM, Random Forest, BRT, MaxEnt) calibrated against 252 georeferenced presence records, 837 field-verified absences, and 17 ecological predictors—projected across 96 CMIP6 scenarios (8 GCMs × 4 SSPs × 3 time periods to 2100). Currently 4,649 km² (14.1% of Bhutan) is classified as suitable, with 74.1% lying outside the formal protected area network. Identified 4,160 km² of climate-stable core refugia, of which 53.6% lies outside protected areas. Mean human–elephant conflict risk is projected to escalate from 0.103 (present) to 0.140 under SSP5-8.5 by 2071–2100, revealing a spatial paradox where critical survival zones coincide with high-conflict hotspots and indicating fundamental mismatches between current PA placement and megafauna habitat requirements.
+Modelled present and future habitat suitability for Asian elephants across Bhutan using an ensemble of four algorithms calibrated with 252 verified presences, 837 verified absences, and 17 predictors. The manuscript identifies 4,670 km² of suitable habitat, with 57.1% outside protected areas, and 4,160 km² of climate-stable refugia, 53.6% of which also lies outside the protected-area network. The card links the main manuscript and supplementary file together.
