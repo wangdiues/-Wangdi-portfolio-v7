@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import styled, { keyframes, css } from 'styled-components';
 import { withPrefix } from 'gatsby';
 import { Layout } from '@components';
+import { usePrefersReducedMotion } from '@hooks';
 
 const IMAGES = [
   'FB_IMG_1343123537148313029.jpg',
@@ -47,59 +48,192 @@ const fadeIn = keyframes`
   to   { opacity: 1; transform: translateY(0); }
 `;
 
+const headerReveal = keyframes`
+  from { opacity: 0; transform: translateY(28px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+`;
+
+const titleShine = keyframes`
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+`;
+
+const kenBurns = keyframes`
+  from { transform: scale(1.04); }
+  to { transform: scale(1.12); }
+`;
+
+const gridReveal = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(26px) scale(0.96);
+    filter: saturate(0.75);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: saturate(1);
+  }
+`;
+
+const lightboxPop = keyframes`
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+`;
+
 // ── Page Shell ──────────────────────────────────────────────────────────────
 
 const StyledPage = styled.main`
   padding-top: var(--nav-height);
   min-height: 100vh;
-  background: var(--dark-navy);
+  max-width: none;
+  background: linear-gradient(135deg, rgba(121, 182, 160, 0.08) 0%, transparent 36%),
+    linear-gradient(225deg, rgba(216, 168, 91, 0.08) 0%, transparent 34%),
+    linear-gradient(180deg, var(--dark-navy) 0%, #0b1a16 44%, var(--navy) 100%);
+  isolation: isolate;
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 `;
 
 // ── Header ───────────────────────────────────────────────────────────────────
 
 const PageHeader = styled.header`
-  text-align: center;
-  padding: 64px 24px 48px;
-  animation: ${fadeIn} 0.6s ease both;
+  position: relative;
+  padding: clamp(54px, 8vw, 88px) 40px clamp(36px, 6vw, 60px);
+  overflow: hidden;
+  animation: ${headerReveal} 0.8s var(--easing) both;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(156, 207, 99, 0.5),
+      rgba(216, 168, 91, 0.45),
+      transparent
+    );
+  }
+
+  @media (max-width: 768px) {
+    padding-right: 22px;
+    padding-left: 22px;
+
+    &::before {
+      left: 22px;
+      right: 22px;
+    }
+  }
+`;
+
+const HeaderInner = styled.div`
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 330px);
+  gap: clamp(28px, 6vw, 88px);
+  align-items: end;
+
+  @media (max-width: 820px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Eyebrow = styled.p`
   font-family: var(--font-mono);
   font-size: var(--fz-xs);
   color: var(--green);
-  letter-spacing: 3px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   margin: 0 0 18px;
 `;
 
 const PageTitle = styled.h1`
   margin: 0 0 14px;
-  font-size: clamp(48px, 9vw, 96px);
+  max-width: 900px;
+  font-size: clamp(56px, 11vw, 132px);
   font-weight: 600;
   color: var(--lightest-slate);
-  line-height: 1;
-  letter-spacing: -2px;
+  line-height: 0.88;
+  letter-spacing: 0;
 
   em {
     font-style: normal;
-    color: var(--green);
+    color: transparent;
+    background: linear-gradient(90deg, var(--green), var(--blue), var(--pink), var(--green));
+    background-size: 220% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: ${titleShine} 7s linear infinite alternate;
   }
 `;
 
 const PageSubtitle = styled.p`
-  color: var(--slate);
+  max-width: 540px;
+  color: var(--light-slate);
   font-family: var(--font-mono);
   font-size: var(--fz-sm);
-  letter-spacing: 1px;
+  line-height: 1.7;
   margin: 0;
 `;
 
-const Divider = styled.div`
-  width: 60px;
-  height: 2px;
-  background: var(--green);
-  margin: 28px auto 0;
-  opacity: 0.5;
+const HeaderStats = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+`;
+
+const HeaderStat = styled.div`
+  min-height: 104px;
+  padding: 18px;
+  border: 1px solid rgba(183, 196, 186, 0.12);
+  border-radius: 8px;
+  background: rgba(14, 31, 26, 0.5);
+  box-shadow: 0 18px 42px rgba(3, 10, 8, 0.22);
+  backdrop-filter: blur(10px);
+
+  strong {
+    display: block;
+    color: var(--white);
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  span {
+    display: block;
+    color: var(--dark-slate);
+    font-family: var(--font-mono);
+    font-size: var(--fz-xxs);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  &:nth-child(2) {
+    border-color: rgba(216, 168, 91, 0.18);
+    transform: translateY(18px);
+  }
+
+  @media (max-width: 820px) {
+    max-width: 520px;
+
+    &:nth-child(2) {
+      transform: translateY(0);
+    }
+  }
 `;
 
 // ── Slideshow ────────────────────────────────────────────────────────────────
@@ -107,11 +241,14 @@ const Divider = styled.div`
 const SlideshowSection = styled.section`
   position: relative;
   width: 100%;
-  height: clamp(380px, 78vh, 820px);
+  max-width: 100%;
+  height: clamp(440px, 78vh, 860px);
+  padding: 0;
   overflow: hidden;
   background: var(--navy);
   cursor: zoom-in;
-  animation: ${fadeIn} 0.8s 0.2s ease both;
+  animation: ${fadeIn} 0.8s 0.2s var(--easing) both;
+  box-shadow: 0 38px 90px rgba(3, 10, 8, 0.4);
 
   /* Subtle film-grain texture overlay */
   &::after {
@@ -124,6 +261,23 @@ const SlideshowSection = styled.section`
     z-index: 6;
     opacity: 0.6;
   }
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 18px;
+    z-index: 4;
+    border: 1px solid rgba(217, 226, 218, 0.12);
+    pointer-events: none;
+  }
+
+  @media (max-width: 768px) {
+    height: clamp(420px, 68vh, 680px);
+
+    &::before {
+      inset: 10px;
+    }
+  }
 `;
 
 const SlidesContainer = styled.div`
@@ -133,13 +287,29 @@ const SlidesContainer = styled.div`
 
 const Slide = styled.div`
   position: absolute;
-  inset: 0;
+  inset: -2%;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   opacity: ${({ $active }) => ($active ? 1 : 0)};
-  transition: opacity 1.1s ease;
-  will-change: opacity;
+  transform: scale(1.04);
+  transition: opacity 1.2s ease;
+  will-change: opacity, transform;
+
+  ${({ $active, $motion }) =>
+    $active &&
+    !$motion &&
+    css`
+      animation: ${kenBurns} 9s ease-out both;
+    `}
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(4, 12, 9, 0.72), transparent 36%, rgba(4, 12, 9, 0.2)),
+      linear-gradient(180deg, rgba(4, 12, 9, 0.15), rgba(4, 12, 9, 0.45));
+  }
 `;
 
 const GradientTop = styled.div`
@@ -148,7 +318,7 @@ const GradientTop = styled.div`
   left: 0;
   right: 0;
   height: 140px;
-  background: linear-gradient(to bottom, rgba(8, 20, 16, 0.75), transparent);
+  background: linear-gradient(to bottom, rgba(8, 20, 16, 0.88), transparent);
   z-index: 3;
   pointer-events: none;
 `;
@@ -158,8 +328,8 @@ const GradientBottom = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  height: 180px;
-  background: linear-gradient(to top, rgba(8, 20, 16, 0.9), transparent);
+  height: 220px;
+  background: linear-gradient(to top, rgba(8, 20, 16, 0.94), transparent);
   z-index: 3;
   pointer-events: none;
 `;
@@ -170,11 +340,11 @@ const NavArrow = styled.button`
   ${({ $left }) => ($left ? 'left: 24px;' : 'right: 24px;')}
   transform: translateY(-50%);
   z-index: 5;
-  background: rgba(14, 31, 26, 0.6);
-  border: 1px solid rgba(156, 207, 99, 0.25);
+  background: rgba(14, 31, 26, 0.68);
+  border: 1px solid rgba(217, 226, 218, 0.18);
   color: var(--lightest-slate);
-  width: 52px;
-  height: 52px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   font-size: 30px;
   line-height: 1;
@@ -182,11 +352,12 @@ const NavArrow = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  backdrop-filter: blur(6px);
-  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 14px 34px rgba(3, 10, 8, 0.32);
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
 
   &:hover {
-    background: rgba(156, 207, 99, 0.15);
+    background: rgba(156, 207, 99, 0.16);
     border-color: var(--green);
     color: var(--green);
     transform: translateY(-50%) scale(1.1);
@@ -207,7 +378,7 @@ const SlideInfoBar = styled.div`
   left: 0;
   right: 0;
   z-index: 5;
-  padding: 20px 32px 24px;
+  padding: 20px clamp(20px, 4vw, 54px) 34px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -219,33 +390,56 @@ const SlideInfoBar = styled.div`
 `;
 
 const SlideCaption = styled.p`
-  color: rgba(217, 226, 218, 0.75);
+  max-width: min(560px, 62vw);
+  color: rgba(217, 226, 218, 0.84);
   font-family: var(--font-mono);
   font-size: var(--fz-xxs);
-  letter-spacing: 2px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   margin: 0;
+
+  @media (max-width: 600px) {
+    max-width: 58vw;
+  }
 `;
 
 const SlideControls = styled.div`
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 10px;
   flex-shrink: 0;
+  padding: 8px 10px;
+  border: 1px solid rgba(217, 226, 218, 0.12);
+  border-radius: 999px;
+  background: rgba(4, 12, 9, 0.42);
+  backdrop-filter: blur(10px);
 `;
 
 const PlayBtn = styled.button`
-  background: none;
-  border: none;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(156, 207, 99, 0.1);
+  border: 1px solid rgba(156, 207, 99, 0.24);
+  border-radius: 50%;
   color: var(--green);
-  font-size: 13px;
+  font-size: 12px;
   cursor: pointer;
-  padding: 4px 6px;
-  transition: transform 0.2s ease;
+  padding: 0;
+  transition: transform 0.2s ease, background 0.2s ease;
   line-height: 1;
 
   &:hover {
-    transform: scale(1.3);
+    transform: scale(1.08);
+    background: rgba(156, 207, 99, 0.18);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.45;
+    transform: none;
   }
 `;
 
@@ -260,26 +454,28 @@ const SlideCounter = styled.span`
 // ── Progress Bar ─────────────────────────────────────────────────────────────
 
 const ProgressTrack = styled.div`
-  height: 2px;
-  background: var(--lightest-navy);
+  height: 3px;
+  background: rgba(39, 69, 59, 0.68);
   position: relative;
   overflow: hidden;
 `;
 
 const ProgressFill = styled.div`
   height: 100%;
-  background: linear-gradient(to right, var(--green), rgba(156, 207, 99, 0.6));
+  background: linear-gradient(90deg, var(--green), var(--blue), var(--pink));
   transition: width 0.7s ease;
+  box-shadow: 0 0 22px rgba(156, 207, 99, 0.34);
 `;
 
 // ── Thumbnail Strip ───────────────────────────────────────────────────────────
 
 const ThumbnailStrip = styled.div`
   display: flex;
-  gap: 5px;
-  padding: 14px 16px;
+  gap: 8px;
+  padding: 16px clamp(16px, 3vw, 34px);
   overflow-x: auto;
-  background: rgba(14, 31, 26, 0.8);
+  background: rgba(8, 20, 16, 0.86);
+  border-bottom: 1px solid rgba(217, 226, 218, 0.08);
   scrollbar-width: thin;
   scrollbar-color: var(--green) var(--light-navy);
 
@@ -297,15 +493,15 @@ const ThumbnailStrip = styled.div`
 
 const ThumbBtn = styled.button`
   flex: 0 0 auto;
-  width: 76px;
-  height: 58px;
-  border-radius: 3px;
+  width: 84px;
+  height: 62px;
+  border-radius: 6px;
   overflow: hidden;
-  border: 2px solid ${({ $active }) => ($active ? 'var(--green)' : 'transparent')};
+  border: 1px solid ${({ $active }) => ($active ? 'var(--green)' : 'rgba(217, 226, 218, 0.1)')};
   background: var(--light-navy);
   padding: 0;
   cursor: pointer;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   position: relative;
 
   img {
@@ -313,8 +509,9 @@ const ThumbBtn = styled.button`
     height: 100%;
     object-fit: cover;
     display: block;
-    opacity: ${({ $active }) => ($active ? 1 : 0.55)};
-    transition: opacity 0.2s ease;
+    opacity: ${({ $active }) => ($active ? 1 : 0.52)};
+    transform: scale(${({ $active }) => ($active ? 1.04 : 1)});
+    transition: opacity 0.2s ease, transform 0.35s ease;
   }
 
   &:hover {
@@ -324,6 +521,7 @@ const ThumbBtn = styled.button`
 
     img {
       opacity: 1;
+      transform: scale(1.06);
     }
   }
 
@@ -337,8 +535,8 @@ const ThumbBtn = styled.button`
 // ── Photo Grid ───────────────────────────────────────────────────────────────
 
 const GridSection = styled.section`
-  padding: 64px 40px 80px;
-  max-width: 1400px;
+  padding: clamp(62px, 8vw, 104px) 40px clamp(82px, 10vw, 128px);
+  max-width: 1480px;
   margin: 0 auto;
   animation: ${fadeIn} 1s 0.4s ease both;
 
@@ -349,15 +547,21 @@ const GridSection = styled.section`
 
 const GridHeader = styled.div`
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
+  justify-content: space-between;
   gap: 16px;
-  margin-bottom: 32px;
+  margin-bottom: 34px;
+
+  @media (max-width: 620px) {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
 `;
 
 const GridTitle = styled.h2`
-  font-family: var(--font-mono);
-  font-size: var(--fz-md);
-  font-weight: 400;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 600;
   color: var(--lightest-slate);
   margin: 0;
 `;
@@ -366,45 +570,70 @@ const GridCount = styled.span`
   font-family: var(--font-mono);
   font-size: var(--fz-xs);
   color: var(--green);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 `;
 
 const PhotoGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-flow: dense;
+  gap: 14px;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 7px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
   }
 
   @media (max-width: 480px) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
   }
 `;
 
 const GridItem = styled.button`
   position: relative;
-  aspect-ratio: 1 / 1;
+  grid-column: span ${({ $variant }) => ($variant === 'wide' ? 6 : $variant === 'tall' ? 3 : 4)};
+  aspect-ratio: ${({ $variant }) =>
+    $variant === 'wide' ? '16 / 10' : $variant === 'tall' ? '3 / 4' : '1 / 1'};
   overflow: hidden;
-  border-radius: 3px;
-  border: none;
+  border-radius: 8px;
+  border: 1px solid rgba(217, 226, 218, 0.1);
   padding: 0;
   cursor: zoom-in;
   background: var(--light-navy);
   display: block;
+  box-shadow: 0 18px 42px rgba(3, 10, 8, 0.2);
+  opacity: ${({ $motion }) => ($motion ? 1 : 0)};
+  ${({ $motion, $delay }) =>
+    $motion
+      ? css`
+          animation: none;
+        `
+      : css`
+          animation: ${gridReveal} 0.72s var(--easing) both;
+          animation-delay: ${$delay}ms;
+        `}
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.45s var(--easing);
+    filter: saturate(0.9) contrast(1.02);
+    transition: transform 0.65s var(--easing), filter 0.35s ease;
+  }
+
+  &:hover {
+    border-color: rgba(156, 207, 99, 0.55);
+    box-shadow: 0 24px 58px rgba(3, 10, 8, 0.32), 0 0 0 1px rgba(156, 207, 99, 0.18);
+    transform: translateY(-4px);
   }
 
   &:hover img {
-    transform: scale(1.1);
+    transform: scale(1.08);
+    filter: saturate(1.08) contrast(1.05);
   }
 
   &:hover > span {
@@ -415,12 +644,22 @@ const GridItem = styled.button`
     outline: 2px solid var(--green);
     outline-offset: 2px;
   }
+
+  @media (max-width: 768px) {
+    grid-column: span ${({ $variant }) => ($variant === 'wide' ? 6 : 3)};
+  }
+
+  @media (max-width: 480px) {
+    grid-column: span 1;
+    aspect-ratio: 1 / 1;
+  }
 `;
 
 const GridOverlay = styled.span`
   position: absolute;
   inset: 0;
-  background: rgba(8, 20, 16, 0.45);
+  background: linear-gradient(180deg, rgba(8, 20, 16, 0.1), rgba(8, 20, 16, 0.76)),
+    rgba(8, 20, 16, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -430,7 +669,15 @@ const GridOverlay = styled.span`
 
   &::after {
     content: '+';
-    font-size: 28px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(156, 207, 99, 0.45);
+    border-radius: 50%;
+    background: rgba(8, 20, 16, 0.54);
+    font-size: 26px;
     font-weight: 300;
     color: var(--green);
     line-height: 1;
@@ -472,7 +719,7 @@ const LightboxImg = styled.div`
     border-radius: 3px;
     box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
     display: block;
-    animation: ${fadeIn} 0.25s ease both;
+    animation: ${lightboxPop} 0.3s var(--easing) both;
   }
 `;
 
@@ -562,10 +809,20 @@ const LightboxCaption = styled.p`
 // ── Component ─────────────────────────────────────────────────────────────────
 
 const N = IMAGES.length;
+const getGridVariant = idx => {
+  if (idx % 11 === 0 || idx % 11 === 6) {
+    return 'wide';
+  }
+  if (idx % 7 === 0 || idx % 7 === 4) {
+    return 'tall';
+  }
+  return 'square';
+};
 
 const GalleryPage = ({ location }) => {
+  const prefersReducedMotion = usePrefersReducedMotion();
   const [current, setCurrent] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const thumbStripRef = useRef(null);
 
@@ -584,17 +841,29 @@ const GalleryPage = ({ location }) => {
 
   // Auto-play
   useEffect(() => {
-    if (!isPlaying || lightboxOpen) {return;}
+    if (!isPlaying || lightboxOpen || prefersReducedMotion) {
+      return;
+    }
     const id = setInterval(() => setCurrent(c => (c + 1) % N), 5000);
     return () => clearInterval(id);
-  }, [isPlaying, lightboxOpen]);
+  }, [isPlaying, lightboxOpen, prefersReducedMotion]);
+
+  useEffect(() => {
+    setIsPlaying(!prefersReducedMotion);
+  }, [prefersReducedMotion]);
 
   // Keyboard navigation
   useEffect(() => {
     const onKey = e => {
-      if (e.key === 'ArrowLeft') {setCurrent(c => (c - 1 + N) % N);}
-      if (e.key === 'ArrowRight') {setCurrent(c => (c + 1) % N);}
-      if (e.key === 'Escape') {setLightboxOpen(false);}
+      if (e.key === 'ArrowLeft') {
+        setCurrent(c => (c - 1 + N) % N);
+      }
+      if (e.key === 'ArrowRight') {
+        setCurrent(c => (c + 1) % N);
+      }
+      if (e.key === 'Escape') {
+        setLightboxOpen(false);
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -602,9 +871,13 @@ const GalleryPage = ({ location }) => {
 
   // Scroll active thumbnail into view
   useEffect(() => {
-    if (!thumbStripRef.current) {return;}
+    if (!thumbStripRef.current) {
+      return;
+    }
     const active = thumbStripRef.current.querySelector('[data-active="true"]');
-    if (active) {active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });}
+    if (active) {
+      active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
   }, [current]);
 
   return (
@@ -614,18 +887,38 @@ const GalleryPage = ({ location }) => {
       <StyledPage>
         {/* ── Header ── */}
         <PageHeader>
-          <Eyebrow>Personal Archive</Eyebrow>
-          <PageTitle>Gallery</PageTitle>
-          <PageSubtitle>
-            Memories from Divisional Forest Office, Sarpang &middot; Bhutan
-          </PageSubtitle>
-          <Divider />
+          <HeaderInner>
+            <div>
+              <Eyebrow>Personal Archive</Eyebrow>
+              <PageTitle>
+                Field <em>Gallery</em>
+              </PageTitle>
+              <PageSubtitle>
+                Memories from Divisional Forest Office, Sarpang &middot; Bhutan
+              </PageSubtitle>
+            </div>
+
+            <HeaderStats aria-label="Gallery summary">
+              <HeaderStat>
+                <strong>{N}</strong>
+                <span>Photographs</span>
+              </HeaderStat>
+              <HeaderStat>
+                <strong>Bhutan</strong>
+                <span>Field archive</span>
+              </HeaderStat>
+            </HeaderStats>
+          </HeaderInner>
         </PageHeader>
 
         {/* ── Slideshow ── */}
         <SlideshowSection
           onMouseEnter={() => setIsPlaying(false)}
-          onMouseLeave={() => setIsPlaying(true)}
+          onMouseLeave={() => {
+            if (!prefersReducedMotion) {
+              setIsPlaying(true);
+            }
+          }}
           onClick={() => setLightboxOpen(true)}
           aria-label="Photo slideshow">
           <SlidesContainer>
@@ -633,6 +926,7 @@ const GalleryPage = ({ location }) => {
               <Slide
                 key={img}
                 $active={idx === current}
+                $motion={prefersReducedMotion}
                 style={{
                   backgroundImage: shouldLoad(idx) ? `url("${imgPath(img)}")` : 'none',
                 }}
@@ -670,6 +964,7 @@ const GalleryPage = ({ location }) => {
                   e.stopPropagation();
                   setIsPlaying(p => !p);
                 }}
+                disabled={prefersReducedMotion}
                 aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}>
                 {isPlaying ? '⏸' : '▶'}
               </PlayBtn>
@@ -710,6 +1005,9 @@ const GalleryPage = ({ location }) => {
             {IMAGES.map((img, idx) => (
               <GridItem
                 key={img}
+                $variant={getGridVariant(idx)}
+                $delay={(idx % 12) * 45}
+                $motion={prefersReducedMotion}
                 onClick={() => {
                   setCurrent(idx);
                   setLightboxOpen(true);
