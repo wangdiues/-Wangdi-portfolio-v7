@@ -1,9 +1,42 @@
 import React, { useEffect, useRef } from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { srConfig } from '@config';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
+
+const credentialsGlow = keyframes`
+  0% {
+    background-position: 0% 50%;
+    text-shadow: 0 0 0 rgba(100, 255, 218, 0);
+  }
+  100% {
+    background-position: 100% 50%;
+    text-shadow: 0 0 18px rgba(100, 255, 218, 0.22);
+  }
+`;
+
+const currentRolePulse = keyframes`
+  0%, 100% {
+    color: var(--green);
+    transform: translateX(0);
+  }
+  50% {
+    color: var(--white);
+    transform: translateX(4px);
+  }
+`;
+
+const currentRoleAccent = keyframes`
+  0%, 100% {
+    opacity: 0.28;
+    transform: scaleY(0.72);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scaleY(1);
+  }
+`;
 
 const StyledAboutSection = styled.section`
   max-width: 900px;
@@ -72,6 +105,16 @@ const StyledProfilePanel = styled.div`
     margin: 0 0 20px;
     color: var(--white);
     font-size: var(--fz-xxl);
+
+    &.credentials-title {
+      width: fit-content;
+      color: transparent;
+      background: linear-gradient(90deg, var(--white), var(--green), var(--white));
+      background-size: 220% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: ${credentialsGlow} 5s ease-in-out infinite alternate;
+    }
   }
 
   .panel-group + .panel-group {
@@ -88,6 +131,37 @@ const StyledProfilePanel = styled.div`
     font-size: var(--fz-xxs);
     letter-spacing: 0.08em;
     text-transform: uppercase;
+  }
+
+  .current-role {
+    position: relative;
+    padding-left: 14px;
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      border-radius: 99px;
+      background: var(--green);
+      transform-origin: center;
+      animation: ${currentRoleAccent} 3.6s ease-in-out infinite;
+    }
+
+    .panel-label {
+      display: inline-block;
+      animation: ${currentRolePulse} 3.6s ease-in-out infinite;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    h3.credentials-title,
+    .current-role:before,
+    .current-role .panel-label {
+      animation: none;
+    }
   }
 
   p,
@@ -187,9 +261,9 @@ const About = () => {
               imgStyle={{ borderRadius: '50%' }}
             />
           </div>
-          <h3>Selected Credentials</h3>
+          <h3 className="credentials-title">Selected Credentials</h3>
 
-          <div className="panel-group">
+          <div className="panel-group current-role">
             <span className="panel-label">Current Role</span>
             <p>
               Senior Forestry Officer, NWFP Section, Forest Resources Planning &amp; Management

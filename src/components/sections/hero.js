@@ -1,9 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { graphql, useStaticQuery, withPrefix } from 'gatsby';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { navDelay, loaderDelay } from '@utils';
 import { usePrefersReducedMotion } from '@hooks';
+
+const nameGlow = keyframes`
+  0% {
+    background-position: 0% 50%;
+    text-shadow: 0 0 0 rgba(156, 207, 99, 0);
+  }
+  50% {
+    text-shadow: 0 0 28px rgba(156, 207, 99, 0.22);
+  }
+  100% {
+    background-position: 100% 50%;
+    text-shadow: 0 0 0 rgba(156, 207, 99, 0);
+  }
+`;
 
 const StyledHeroSection = styled.section`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -32,6 +46,28 @@ const StyledHeroSection = styled.section`
 
   h2.big-heading {
     font-size: clamp(36px, 6vw, 60px);
+
+    &.name-heading {
+      width: fit-content;
+      color: transparent;
+      background: linear-gradient(
+        90deg,
+        var(--lightest-slate),
+        var(--green),
+        var(--blue),
+        var(--lightest-slate)
+      );
+      background-size: 240% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      animation: ${nameGlow} 5.5s ease-in-out infinite alternate;
+
+      @media (prefers-reduced-motion: reduce) {
+        color: var(--lightest-slate);
+        background: none;
+        animation: none;
+      }
+    }
   }
 
   h3.big-heading {
@@ -127,7 +163,7 @@ const Hero = () => {
   }, []);
 
   const one = <h1>Research &amp; Conservation</h1>;
-  const two = <h2 className="big-heading">Wangdi.</h2>;
+  const two = <h2 className="big-heading name-heading">Wangdi.</h2>;
   const three = (
     <h3 className="big-heading">
       Ecologist and forest governance professional quantifying biodiversity, connectivity, and
