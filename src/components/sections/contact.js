@@ -1,12 +1,16 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { srConfig, email, socialMedia } from '@config';
 import { Icon } from '@components/icons';
 import sr from '@utils/sr';
 import { usePrefersReducedMotion } from '@hooks';
 
-// Characters used during the scramble phase
 const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#$@&%?!';
+const TITLE = 'Get In Touch';
+const HANDLE = 'wangdiues'; // '@' rendered separately
+const SCRAMBLE_DURATION = 480; // ms before first char locks
+const LOCK_STAGGER = 88; // ms between each char locking
+const TYPE_SPEED = 72; // ms between typed handle chars
 
 const cursorBlink = keyframes`
   0%, 100% { opacity: 1; }
@@ -14,17 +18,17 @@ const cursorBlink = keyframes`
 `;
 
 const handleIn = keyframes`
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(14px); }
   to   { opacity: 1; transform: translateY(0); }
 `;
 
 const goldPulse = keyframes`
-  0%   { text-shadow: 0 0 0 rgba(240,200,72,0); }
-  40%  { text-shadow: 0 0 32px rgba(240,200,72,0.85), 0 0 64px rgba(240,200,72,0.3); }
-  100% { text-shadow: 0 0 10px rgba(240,200,72,0.18); }
+  0%   { text-shadow: none; }
+  35%  { text-shadow: 0 0 28px rgba(240,200,72,0.85), 0 0 56px rgba(240,200,72,0.3); }
+  100% { text-shadow: 0 0 8px rgba(240,200,72,0.16); }
 `;
 
-// ── Styled components ────────────────────────────────────────────────────────
+// ── Styled ────────────────────────────────────────────────────────────────────
 
 const StyledContactSection = styled.section`
   max-width: 600px;
@@ -106,14 +110,11 @@ const StyledContactSection = styled.section`
   }
 `;
 
-// Scrambling character — glows gold while unsettled
 const ScrambleChar = styled.span`
   display: inline-block;
   white-space: pre;
   color: ${({ $locked }) => ($locked ? 'var(--ivory)' : 'var(--gold-light)')};
-  opacity: ${({ $locked, $active }) => ($locked || $active ? 1 : 0.22)};
-  transition: color 0.12s ease, opacity 0.12s ease;
-  font-variant-numeric: tabular-nums;
+  transition: color 0.1s ease;
 `;
 
 const HandleWrapper = styled.div`
@@ -127,10 +128,11 @@ const HandleWrapper = styled.div`
   letter-spacing: 0.22em;
   color: var(--gold);
   min-height: 1.6em;
+  opacity: 0;
 
-  opacity: ${({ $show }) => ($show ? 1 : 0)};
-  animation: ${({ $show }) =>
-    $show ? `${handleIn} 0.5s ease forwards, ${goldPulse} 1.2s 0.2s ease forwards` : 'none'};
+  &.visible {
+    animation: ${handleIn} 0.5s ease forwards, ${goldPulse} 1.2s 0.3s ease forwards;
+  }
 
   .at {
     color: var(--gold-light);
@@ -144,7 +146,7 @@ const HandleWrapper = styled.div`
     width: 2px;
     height: 0.82em;
     background: var(--gold-light);
-    margin-left: 5px;
+    margin-left: 4px;
     vertical-align: middle;
     border-radius: 1px;
     animation: ${cursorBlink} 1s step-end infinite;
@@ -153,98 +155,32 @@ const HandleWrapper = styled.div`
   @media (prefers-reduced-motion: reduce) {
     opacity: 1;
     animation: none;
+
     .cursor {
       display: none;
     }
   }
 `;
 
-// ── Constants ────────────────────────────────────────────────────────────────
+// ── Component ─────────────────────────────────────────────────────────────────
 
-const TITLE = 'Get In Touch';
-// ms each character scrambles before locking
-const SCRAMBLE_DURATION = 480;
-// ms between each character starting to lock (left → right)
-const LOCK_STAGGER = 90;
-// ms between each handle character being typed
-const TYPE_SPEED = 70;
-const HANDLE = '@wangdiues';
-
-// ── Component ────────────────────────────────────────────────────────────────
+const rand = () => SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
 
 const Contact = () => {
   const revealContainer = useRef(null);
   const titleRef = useRef(null);
+  const handleRef = useRef(null);
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  // Array of displayed chars (null = not yet started, ' ' for spaces in title)
-  const [chars, setChars] = useState(() => TITLE.split('').map(() => null));
-  const [lockedMask, setLockedMask] = useState(() => TITLE.split('').map(() => false));
+  // displayedChars: what each position currently shows
+  const [displayedChars, setDisplayedChars] = useState(() => TITLE.split(''));
+  // lockedMask: which positions have settled to the real letter
+  const [lockedMask, setLockedMask] = useState(() => TITLE.split('').map(() => true));
   const [handleText, setHandleText] = useState('');
-  const [showHandle, setShowHandle] = useState(false);
-  const [started, setStarted] = useState(false);
+  const [handleVisible, setHandleVisible] = useState(false);
 
-  const rand = useCallback(
-    () => SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)],
-    [],
-  );
-
-  // Kick off the scramble sequence
-  const startAnimation = useCallback(() => {
-    if (started || prefersReducedMotion) {return;}
-    setStarted(true);
-
-    const letters = TITLE.split('');
-    const totalChars = letters.length;
-
-    // Scramble ticker — updates random chars for non-locked positions
-    let lockedCount = 0;
-    const scrambled = letters.map(ch => (ch === ' ' ? ' ' : rand()));
-    setChars([...scrambled]);
-
-    const tickInterval = setInterval(() => {
-      setChars(prev =>
-        prev.map((ch, i) => {
-          if (lockedMask[i] || letters[i] === ' ') {return ch;}
-          return rand();
-        }),
-      );
-    }, 55);
-
-    // Lock each character one by one, left to right
-    letters.forEach((ch, i) => {
-      setTimeout(() => {
-        setLockedMask(prev => {
-          const next = [...prev];
-          next[i] = true;
-          return next;
-        });
-        setChars(prev => {
-          const next = [...prev];
-          next[i] = ch;
-          return next;
-        });
-        lockedCount += 1;
-
-        if (lockedCount === totalChars) {
-          // All locked — stop ticker, start handle typewriter
-          clearInterval(tickInterval);
-          setTimeout(() => {
-            setShowHandle(true);
-            // Type the handle char by char (skip '@' — it's rendered separately)
-            const handleChars = HANDLE.slice(1); // 'wangdiues'
-            handleChars.split('').forEach((c, j) => {
-              setTimeout(() => {
-                setHandleText(prev => prev + c);
-              }, j * TYPE_SPEED);
-            });
-          }, 200);
-        }
-      }, SCRAMBLE_DURATION + i * LOCK_STAGGER);
-    });
-
-    return () => clearInterval(tickInterval);
-  }, [started, prefersReducedMotion, rand, lockedMask]);
+  // Use a ref so the observer callback never becomes stale
+  const startedRef = useRef(false);
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -253,18 +189,80 @@ const Contact = () => {
 
     sr.reveal(revealContainer.current, srConfig());
 
+    const runAnimation = () => {
+      if (startedRef.current) {return;}
+      startedRef.current = true;
+
+      const letters = TITLE.split('');
+      // Track which positions are locked (local, not state — avoids stale closure)
+      const locked = letters.map(() => false);
+      let lockedCount = 0;
+
+      // Start all chars scrambling
+      setLockedMask(letters.map(() => false));
+      setDisplayedChars(letters.map(ch => (ch === ' ' ? ' ' : rand())));
+
+      // Ticker: update unlocked positions with random chars
+      const ticker = setInterval(() => {
+        setDisplayedChars(prev =>
+          prev.map((ch, i) => {
+            if (locked[i] || letters[i] === ' ') {return ch;}
+            return rand();
+          }),
+        );
+      }, 55);
+
+      // Lock each character left-to-right
+      letters.forEach((ch, i) => {
+        setTimeout(() => {
+          locked[i] = true;
+          lockedCount += 1;
+
+          setLockedMask(prev => {
+            const next = [...prev];
+            next[i] = true;
+            return next;
+          });
+          setDisplayedChars(prev => {
+            const next = [...prev];
+            next[i] = ch;
+            return next;
+          });
+
+          if (lockedCount === letters.length) {
+            clearInterval(ticker);
+            // Typewrite the handle
+            setTimeout(() => {
+              setHandleVisible(true);
+              if (handleRef.current) {
+                handleRef.current.classList.add('visible');
+              }
+              HANDLE.split('').forEach((c, j) => {
+                setTimeout(() => {
+                  setHandleText(prev => prev + c);
+                }, j * TYPE_SPEED);
+              });
+            }, 220);
+          }
+        }, SCRAMBLE_DURATION + i * LOCK_STAGGER);
+      });
+
+      return () => clearInterval(ticker);
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          startAnimation();
           observer.disconnect();
+          runAnimation();
         }
       },
       { threshold: 0.4 },
     );
+
     if (titleRef.current) {observer.observe(titleRef.current);}
     return () => observer.disconnect();
-  }, [prefersReducedMotion, startAnimation]);
+  }, [prefersReducedMotion]);
 
   return (
     <StyledContactSection id="contact" ref={revealContainer}>
@@ -273,19 +271,18 @@ const Contact = () => {
       <h2 className="title" ref={titleRef} aria-label={TITLE}>
         {prefersReducedMotion
           ? TITLE
-          : TITLE.split('').map((original, i) => (
-            <ScrambleChar key={i} $locked={lockedMask[i]} $active={chars[i] !== null}>
-              {chars[i] !== null ? chars[i] : original}
+          : TITLE.split('').map((_, i) => (
+            <ScrambleChar key={i} $locked={lockedMask[i]}>
+              {displayedChars[i]}
             </ScrambleChar>
           ))}
       </h2>
 
       {!prefersReducedMotion && (
-        <HandleWrapper $show={showHandle} aria-label={HANDLE}>
+        <HandleWrapper ref={handleRef} aria-label={`@${HANDLE}`}>
           <span className="at">@</span>
           <span>{handleText}</span>
-          {handleText.length < HANDLE.length - 1 && <span className="cursor" />}
-          {handleText.length >= HANDLE.length - 1 && showHandle && <span className="cursor" />}
+          {handleVisible && <span className="cursor" />}
         </HandleWrapper>
       )}
 
