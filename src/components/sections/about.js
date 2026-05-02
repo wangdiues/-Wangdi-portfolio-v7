@@ -38,6 +38,16 @@ const currentRoleAccent = keyframes`
   }
 `;
 
+const profileRingRotate = keyframes`
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+`;
+
+const profileOrbit = keyframes`
+  from { transform: rotate(0deg) translateX(84px); }
+  to   { transform: rotate(360deg) translateX(84px); }
+`;
+
 const StyledAboutSection = styled.section`
   max-width: 900px;
 
@@ -91,13 +101,55 @@ const StyledProfilePanel = styled.div`
     display: flex;
     justify-content: center;
     margin-bottom: 24px;
+    position: relative;
+    height: 140px;
+
+    /* Rotating dashed ceremonial ring */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 172px;
+      height: 172px;
+      margin-top: -86px;
+      margin-left: -86px;
+      border-radius: 50%;
+      border: 1px dashed rgba(201, 162, 39, 0.28);
+      pointer-events: none;
+
+      @media (prefers-reduced-motion: no-preference) {
+        animation: ${profileRingRotate} 14s linear infinite;
+      }
+    }
+
+    /* Orbiting gold dot — Royal Druk orbital symbol */
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      margin-top: -3.5px;
+      margin-left: -3.5px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f0c848 0%, rgba(201, 162, 39, 0.4) 100%);
+      box-shadow: 0 0 8px rgba(240, 200, 72, 0.8), 0 0 18px rgba(201, 162, 39, 0.38);
+      pointer-events: none;
+
+      @media (prefers-reduced-motion: no-preference) {
+        animation: ${profileOrbit} 9s linear infinite;
+      }
+    }
 
     .gatsby-image-wrapper {
       width: 140px;
       height: 140px;
       border-radius: 50%;
       border: 2px solid rgba(240, 200, 72, 0.8);
-      box-shadow: 0 0 0 6px rgba(201, 162, 39, 0.08), 0 16px 36px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 0 0 6px rgba(201, 162, 39, 0.08), 0 0 0 7px rgba(201, 162, 39, 0.04),
+        0 16px 36px rgba(0, 0, 0, 0.28);
       overflow: hidden;
       flex-shrink: 0;
     }
@@ -167,7 +219,9 @@ const StyledProfilePanel = styled.div`
   @media (prefers-reduced-motion: reduce) {
     h3.credentials-title,
     .current-role:before,
-    .current-role .panel-label {
+    .current-role .panel-label,
+    .photo-wrapper::before,
+    .photo-wrapper::after {
       animation: none;
     }
   }

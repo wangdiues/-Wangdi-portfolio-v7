@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, withPrefix } from 'gatsby';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+const logoOrbit = keyframes`
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+`;
 import { navLinks } from '@config';
 import { loaderDelay } from '@utils';
 import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
@@ -72,6 +77,47 @@ const StyledNav = styled.nav`
       height: 42px;
       position: relative;
       z-index: 1;
+      transition: color 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+
+      /* Spinning ceremonial gold arc — Royal Druk orbital glyph */
+      &::before {
+        content: '';
+        position: absolute;
+        inset: -7px;
+        border-radius: 50%;
+        background: conic-gradient(
+          from 0deg,
+          transparent 0%,
+          transparent 50%,
+          rgba(201, 162, 39, 0.38) 64%,
+          rgba(240, 200, 72, 0.82) 72%,
+          rgba(201, 162, 39, 0.38) 80%,
+          transparent 94%,
+          transparent 100%
+        );
+        mask: radial-gradient(transparent 44%, black 45%, black 57%, transparent 58%);
+        -webkit-mask: radial-gradient(transparent 44%, black 45%, black 57%, transparent 58%);
+        z-index: 2;
+        pointer-events: none;
+        opacity: 0.6;
+        transition: opacity 0.3s ease;
+
+        @media (prefers-reduced-motion: no-preference) {
+          animation: ${logoOrbit} 7s linear infinite;
+        }
+      }
+
+      /* Outer static gold ring */
+      &::after {
+        content: '';
+        position: absolute;
+        inset: -7px;
+        border-radius: 50%;
+        border: 1px solid rgba(201, 162, 39, 0.1);
+        z-index: 1;
+        pointer-events: none;
+        transition: border-color 0.3s ease;
+      }
 
       .hex-container {
         position: absolute;
@@ -102,8 +148,17 @@ const StyledNav = styled.nav`
       &:focus {
         outline: 0;
         color: var(--gold-light);
-        filter: drop-shadow(0 0 12px rgba(201, 162, 39, 0.32));
+        filter: drop-shadow(0 0 16px rgba(201, 162, 39, 0.52));
         transform: translateY(-2px);
+
+        &::before {
+          opacity: 1;
+        }
+
+        &::after {
+          border-color: rgba(201, 162, 39, 0.28);
+        }
+
         .hex-container {
           transform: translateY(2px);
         }
