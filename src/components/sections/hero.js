@@ -105,9 +105,11 @@ const StyledHeroSection = styled.section`
     opacity: 0.6;
   }
 
-  @media (max-height: 700px) and (min-width: 700px), (max-width: 360px) {
+  @media (max-height: 700px) and (min-width: 700px), (max-width: 600px) {
     height: auto;
+    min-height: unset;
     padding-top: var(--nav-height);
+    padding-bottom: 60px;
   }
 
   h1 {
