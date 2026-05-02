@@ -22,8 +22,8 @@ module.exports = {
       url: '/#experience',
     },
     {
-      name: 'Case Studies',
-      url: '/#case-studies',
+      name: 'Programs',
+      url: '/#programs',
     },
     {
       name: 'Publications',

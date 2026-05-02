@@ -273,9 +273,9 @@ const Featured = () => {
   }, []);
 
   return (
-    <section id="case-studies">
+    <section id="programs">
       <h2 className="numbered-heading" ref={revealTitle}>
-        Selected Case Studies
+        Programs
       </h2>
 
       <StyledProjectsGrid>
@@ -291,7 +291,7 @@ const Featured = () => {
               <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
                 <div className="project-content">
                   <div>
-                    <p className="project-overline">Flagship Case Study</p>
+                    <p className="project-overline">Flagship Programs</p>
 
                     <h3 className="project-title">
                       {reportUrl ? <a href={reportUrl}>{title}</a> : <span>{title}</span>}

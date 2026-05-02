@@ -265,8 +265,8 @@ const Hero = () => {
         rel="noreferrer">
         View CV
       </a>
-      <a className="secondary-link" href={withPrefix('/#case-studies')}>
-        Explore Case Studies
+      <a className="secondary-link" href={withPrefix('/#programs')}>
+        Explore Programs
       </a>
     </div>
   );
