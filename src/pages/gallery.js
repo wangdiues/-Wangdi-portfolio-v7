@@ -372,7 +372,7 @@ const Slide = styled.div`
   position: absolute;
   inset: -2%;
   background-size: cover;
-  background-position: center;
+  background-position: center top;
   background-repeat: no-repeat;
   opacity: ${({ $active }) => ($active ? 1 : 0)};
   transform: scale(1.04);
@@ -1003,13 +1003,13 @@ const LightboxCaption = styled.p`
 // ─── Component ────────────────────────────────────────────────────────────────
 
 const N = IMAGES.length;
+// Portrait images that must not be stretched into the 'wide' landscape slot
+const PORTRAIT_INDICES = new Set([33]); // W2 (1).jpg
+
 const getGridVariant = idx => {
-  if (idx % 11 === 0 || idx % 11 === 6) {
-    return 'wide';
-  }
-  if (idx % 7 === 0 || idx % 7 === 4) {
-    return 'tall';
-  }
+  if (PORTRAIT_INDICES.has(idx)) {return 'tall';}
+  if (idx % 11 === 0 || idx % 11 === 6) {return 'wide';}
+  if (idx % 7 === 0 || idx % 7 === 4) {return 'tall';}
   return 'square';
 };
 
