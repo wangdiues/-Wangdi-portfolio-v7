@@ -14,26 +14,42 @@ const StyledPublicationsSection = styled.section`
   .publications-grid {
     ${({ theme }) => theme.mixins.resetList};
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
     gap: 18px;
     width: 100%;
     margin-top: 40px;
+
+    @media (max-width: 480px) {
+      gap: 14px;
+      margin-top: 28px;
+    }
   }
 
   .publication-filters {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: 8px;
     width: 100%;
     margin-top: 10px;
+
+    @media (max-width: 480px) {
+      gap: 6px;
+    }
   }
 
   .filter-button {
     ${({ theme }) => theme.mixins.smallButton};
     padding: 0.65rem 0.9rem;
+    min-height: 44px;
     border-color: var(--border-gold);
     color: rgba(240, 236, 224, 0.72);
+    touch-action: manipulation;
+
+    @media (max-width: 480px) {
+      padding: 0.5rem 0.75rem;
+      font-size: var(--fz-xxs);
+    }
 
     &.active {
       border-color: var(--green);

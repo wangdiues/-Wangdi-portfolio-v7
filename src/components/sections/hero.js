@@ -94,6 +94,12 @@ const StyledHeroSection = styled.section`
     margin: 20px 0 0;
     max-width: 620px;
     color: rgba(240, 236, 224, 0.74);
+    line-height: 1.65;
+
+    @media (max-width: 480px) {
+      font-size: var(--fz-md);
+      margin-top: 16px;
+    }
   }
 
   .cta-group {
@@ -101,14 +107,35 @@ const StyledHeroSection = styled.section`
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 40px;
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 32px;
+    }
   }
 
   .primary-link {
     ${({ theme }) => theme.mixins.bigButton};
+    min-height: 44px;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+      padding: 14px 20px;
+    }
   }
 
   .secondary-link {
     ${({ theme }) => theme.mixins.smallButton};
+    min-height: 44px;
+
+    @media (max-width: 480px) {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
   }
 
   .impact-strip {
@@ -120,11 +147,13 @@ const StyledHeroSection = styled.section`
     margin-top: 40px;
 
     @media (max-width: 768px) {
-      grid-template-columns: repeat(2, minmax(140px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
 
-    @media (max-width: 420px) {
-      grid-template-columns: 1fr;
+    @media (max-width: 360px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
     }
   }
 
@@ -134,14 +163,23 @@ const StyledHeroSection = styled.section`
     border-radius: var(--border-radius);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.065), rgba(255, 255, 255, 0.025));
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+
+    @media (max-width: 480px) {
+      padding: 14px 12px 12px;
+    }
   }
 
   .impact-value {
     display: block;
     margin-bottom: 6px;
     color: var(--gold-light);
-    font-size: clamp(24px, 4vw, 30px);
+    font-size: clamp(22px, 4vw, 30px);
     font-weight: 600;
+
+    @media (max-width: 480px) {
+      font-size: clamp(20px, 5vw, 26px);
+      margin-bottom: 4px;
+    }
   }
 
   .impact-label {
@@ -151,6 +189,11 @@ const StyledHeroSection = styled.section`
     font-size: var(--fz-xxs);
     letter-spacing: 0.08em;
     text-transform: uppercase;
+
+    @media (max-width: 480px) {
+      font-size: 10px;
+      letter-spacing: 0.05em;
+    }
   }
 `;
 

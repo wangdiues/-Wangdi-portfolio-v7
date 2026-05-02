@@ -177,6 +177,19 @@ const PageHeader = styled.header`
       right: 22px;
     }
   }
+
+  @media (max-width: 480px) {
+    padding-right: 16px;
+    padding-left: 16px;
+    padding-top: clamp(48px, 7vw, 68px);
+    &::before {
+      left: 16px;
+      right: 16px;
+    }
+    &::after {
+      display: none;
+    }
+  }
 `;
 
 const HeaderInner = styled.div`
@@ -412,11 +425,11 @@ const GradientBottom = styled.div`
 /* Giant ghosted frame number — the defining cinematic detail */
 const SlideNumber = styled.div`
   position: absolute;
-  left: clamp(20px, 3.5vw, 48px);
+  left: clamp(16px, 3.5vw, 48px);
   bottom: clamp(52px, 10vh, 110px);
   z-index: 4;
   font-family: var(--font-display);
-  font-size: clamp(110px, 20vw, 280px);
+  font-size: clamp(72px, 18vw, 280px);
   font-weight: 300;
   line-height: 1;
   letter-spacing: -0.05em;
@@ -425,6 +438,12 @@ const SlideNumber = styled.div`
   pointer-events: none;
   user-select: none;
   animation: ${counterPop} 0.45s var(--easing) both;
+
+  @media (max-width: 480px) {
+    font-size: clamp(60px, 22vw, 110px);
+    bottom: 56px;
+    opacity: 0.055;
+  }
 `;
 
 const NavArrow = styled.button`
@@ -985,8 +1004,12 @@ const LightboxCaption = styled.p`
 
 const N = IMAGES.length;
 const getGridVariant = idx => {
-  if (idx % 11 === 0 || idx % 11 === 6) {return 'wide';}
-  if (idx % 7 === 0 || idx % 7 === 4) {return 'tall';}
+  if (idx % 11 === 0 || idx % 11 === 6) {
+    return 'wide';
+  }
+  if (idx % 7 === 0 || idx % 7 === 4) {
+    return 'tall';
+  }
   return 'square';
 };
 
@@ -1021,7 +1044,9 @@ const GalleryPage = ({ location }) => {
 
   // Auto-play
   useEffect(() => {
-    if (!isPlaying || lightboxOpen || prefersReducedMotion) {return;}
+    if (!isPlaying || lightboxOpen || prefersReducedMotion) {
+      return;
+    }
     const id = setInterval(() => setCurrent(c => (c + 1) % N), 5000);
     return () => clearInterval(id);
   }, [isPlaying, lightboxOpen, prefersReducedMotion]);
@@ -1041,7 +1066,9 @@ const GalleryPage = ({ location }) => {
         setNavDirection('forward');
         setCurrent(c => (c + 1) % N);
       }
-      if (e.key === 'Escape') {setLightboxOpen(false);}
+      if (e.key === 'Escape') {
+        setLightboxOpen(false);
+      }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -1049,9 +1076,13 @@ const GalleryPage = ({ location }) => {
 
   // Scroll active thumbnail into view
   useEffect(() => {
-    if (!thumbStripRef.current) {return;}
+    if (!thumbStripRef.current) {
+      return;
+    }
     const active = thumbStripRef.current.querySelector('[data-active="true"]');
-    if (active) {active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });}
+    if (active) {
+      active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
   }, [current]);
 
   return (
@@ -1089,7 +1120,9 @@ const GalleryPage = ({ location }) => {
         <SlideshowSection
           onMouseEnter={() => setIsPlaying(false)}
           onMouseLeave={() => {
-            if (!prefersReducedMotion) {setIsPlaying(true);}
+            if (!prefersReducedMotion) {
+              setIsPlaying(true);
+            }
           }}
           onClick={() => setLightboxOpen(true)}
           aria-label="Photo slideshow">

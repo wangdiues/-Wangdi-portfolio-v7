@@ -14,12 +14,15 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     width: 100%;
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   *,
   *:before,
   *:after {
     box-sizing: inherit;
+    -webkit-tap-highlight-color: transparent;
   }
 
   ::selection {
@@ -143,11 +146,17 @@ const GlobalStyle = createGlobalStyle`
     @media (max-width: 1080px) {
       padding: 200px 100px;
     }
+    @media (max-width: 900px) {
+      padding: 180px 60px;
+    }
     @media (max-width: 768px) {
-      padding: 150px 50px;
+      padding: 150px 40px;
     }
     @media (max-width: 480px) {
-      padding: 125px 25px;
+      padding: 120px 20px;
+    }
+    @media (max-width: 360px) {
+      padding: 110px 16px;
     }
 
     &.fillHeight {
@@ -156,11 +165,17 @@ const GlobalStyle = createGlobalStyle`
       @media (max-width: 1080px) {
         padding: 0 100px;
       }
+      @media (max-width: 900px) {
+        padding: 0 60px;
+      }
       @media (max-width: 768px) {
-        padding: 0 50px;
+        padding: 0 40px;
       }
       @media (max-width: 480px) {
-        padding: 0 25px;
+        padding: 0 20px;
+      }
+      @media (max-width: 360px) {
+        padding: 0 16px;
       }
     }
   }
@@ -303,6 +318,7 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
     border: 0;
     border-radius: 0;
+    touch-action: manipulation;
   }
 
   input, textarea {

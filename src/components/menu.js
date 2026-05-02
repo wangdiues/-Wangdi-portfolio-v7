@@ -144,7 +144,11 @@ const StyledSidebar = styled.aside`
     a {
       ${({ theme }) => theme.mixins.link};
       width: 100%;
-      padding: 3px 20px 20px;
+      padding: 12px 20px;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: rgba(240, 236, 224, 0.72);
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -153,8 +157,9 @@ const StyledSidebar = styled.aside`
 
   .resume-link {
     ${({ theme }) => theme.mixins.bigButton};
-    padding: 18px 50px;
-    margin: 10% auto 0;
+    padding: 16px 50px;
+    margin: 8% auto 0;
+    min-height: 52px;
     width: max-content;
   }
 `;

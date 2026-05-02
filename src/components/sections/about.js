@@ -64,11 +64,16 @@ const StyledAboutSection = styled.section`
 const StyledText = styled.div`
   ul.skills-list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(180px, 220px));
+    grid-template-columns: repeat(2, minmax(140px, 220px));
     grid-gap: 0 10px;
     padding: 0;
     margin: 20px 0 0 0;
     overflow: hidden;
+
+    @media (max-width: 480px) {
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 0 8px;
+    }
     list-style: none;
 
     li {
@@ -96,6 +101,16 @@ const StyledProfilePanel = styled.div`
   border-radius: var(--border-radius);
   border: 1px solid var(--border-gold);
   background: linear-gradient(180deg, rgba(34, 31, 58, 0.88), rgba(12, 10, 24, 0.92));
+
+  @media (max-width: 768px) {
+    margin-top: 44px;
+    padding: 24px 20px;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 36px;
+    padding: 20px 16px;
+  }
 
   .photo-wrapper {
     display: flex;
