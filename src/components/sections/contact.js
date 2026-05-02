@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import { srConfig, email, socialMedia } from '@config';
 import { Icon } from '@components/icons';
@@ -85,28 +86,8 @@ const StyledContactSection = styled.section`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 14px;
+    gap: 16px;
     margin-top: 24px;
-
-    a {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--light-slate);
-      font-family: var(--font-mono);
-      font-size: var(--fz-xs);
-      text-decoration: none;
-      transition: color 0.2s ease;
-
-      &:hover {
-        color: var(--gold-light);
-      }
-
-      svg {
-        width: 16px;
-        height: 16px;
-      }
-    }
   }
 `;
 
@@ -162,6 +143,108 @@ const HandleWrapper = styled.div`
   }
 `;
 
+const chipReveal = keyframes`
+  from { opacity: 0; transform: translateY(-6px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+`;
+
+const IconBtn = styled.button`
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(201, 162, 39, 0.22);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--light-slate);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:hover,
+  &.active {
+    border-color: var(--gold);
+    background: rgba(201, 162, 39, 0.1);
+    color: var(--gold-light);
+    transform: translateY(-2px);
+  }
+`;
+
+const LinkChip = styled.a`
+  display: block;
+  margin-top: 6px;
+  padding: 5px 10px;
+  border: 1px solid rgba(201, 162, 39, 0.28);
+  border-radius: 999px;
+  background: rgba(12, 10, 24, 0.9);
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  text-decoration: none;
+  animation: ${chipReveal} 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  &:hover {
+    background: rgba(201, 162, 39, 0.12);
+    color: var(--gold-light);
+  }
+`;
+
+const SocialIconWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+// ── SocialIconLink ────────────────────────────────────────────────────────────
+
+const SocialIconLink = ({ name, url }) => {
+  const [revealed, setRevealed] = useState(false);
+  const timerRef = useRef(null);
+
+  const toggle = useCallback(() => {
+    clearTimeout(timerRef.current);
+    setRevealed(prev => {
+      if (!prev) {
+        timerRef.current = setTimeout(() => setRevealed(false), 3500);
+        return true;
+      }
+      return false;
+    });
+  }, []);
+
+  useEffect(() => () => clearTimeout(timerRef.current), []);
+
+  const display = url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
+  return (
+    <SocialIconWrapper>
+      <IconBtn
+        onClick={toggle}
+        aria-label={`${name} — click to reveal link`}
+        className={revealed ? 'active' : ''}>
+        <Icon name={name} />
+      </IconBtn>
+      {revealed && (
+        <LinkChip href={url} target="_blank" rel="noreferrer" aria-label={`Open ${name}`}>
+          {display}
+        </LinkChip>
+      )}
+    </SocialIconWrapper>
+  );
+};
+
+SocialIconLink.propTypes = {
+  name: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 const rand = () => SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
@@ -190,7 +273,9 @@ const Contact = () => {
     sr.reveal(revealContainer.current, srConfig());
 
     const runAnimation = () => {
-      if (startedRef.current) {return;}
+      if (startedRef.current) {
+        return;
+      }
       startedRef.current = true;
 
       const letters = TITLE.split('');
@@ -206,7 +291,9 @@ const Contact = () => {
       const ticker = setInterval(() => {
         setDisplayedChars(prev =>
           prev.map((ch, i) => {
-            if (locked[i] || letters[i] === ' ') {return ch;}
+            if (locked[i] || letters[i] === ' ') {
+              return ch;
+            }
             return rand();
           }),
         );
@@ -260,7 +347,9 @@ const Contact = () => {
       { threshold: 0.4 },
     );
 
-    if (titleRef.current) {observer.observe(titleRef.current);}
+    if (titleRef.current) {
+      observer.observe(titleRef.current);
+    }
     return () => observer.disconnect();
   }, [prefersReducedMotion]);
 
@@ -298,10 +387,7 @@ const Contact = () => {
 
       <div className="contact-links">
         {socialMedia.map(({ name, url }) => (
-          <a key={name} href={url} target="_blank" rel="noreferrer" aria-label={`${name} profile`}>
-            <Icon name={name} />
-            {name === 'Linkedin' ? 'LinkedIn' : name}
-          </a>
+          <SocialIconLink key={name} name={name} url={url} />
         ))}
       </div>
     </StyledContactSection>
