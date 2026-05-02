@@ -19,6 +19,73 @@ const nameGlow = keyframes`
   }
 `;
 
+const sparkleAnim = keyframes`
+  0%, 100% { transform: scale(0) rotate(0deg); opacity: 0; }
+  20%       { opacity: 0.9; }
+  50%       { transform: scale(1) rotate(45deg); opacity: 0.75; }
+  80%       { opacity: 0.35; }
+`;
+
+// Scattered sparkle positions — heavier on the right (clear of text on desktop)
+const SPARKLES = [
+  { top: '7%', left: '72%', size: 16, delay: 0.0, dur: 3.2 },
+  { top: '20%', left: '89%', size: 10, delay: 1.4, dur: 2.9 },
+  { top: '4%', left: '47%', size: 7, delay: 2.6, dur: 3.8 },
+  { top: '40%', left: '82%', size: 14, delay: 0.7, dur: 4.1 },
+  { top: '66%', left: '93%', size: 9, delay: 1.9, dur: 3.0 },
+  { top: '14%', left: '61%', size: 11, delay: 3.2, dur: 2.7 },
+  { top: '54%', left: '71%', size: 6, delay: 0.4, dur: 4.5 },
+  { top: '29%', left: '97%', size: 10, delay: 2.1, dur: 3.5 },
+  { top: '79%', left: '59%', size: 7, delay: 1.1, dur: 3.0 },
+  { top: '11%', left: '26%', size: 5, delay: 3.8, dur: 3.6 },
+  { top: '87%', left: '83%', size: 13, delay: 0.8, dur: 4.3 },
+  { top: '49%', left: '56%', size: 6, delay: 2.4, dur: 3.2 },
+  { top: '61%', left: '35%', size: 4, delay: 1.6, dur: 4.8 },
+  { top: '91%', left: '14%', size: 5, delay: 4.2, dur: 3.4 },
+  { top: '74%', left: '4%', size: 4, delay: 2.9, dur: 3.7 },
+];
+
+const SparkleField = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+`;
+
+const SparkleItem = styled.div`
+  position: absolute;
+  top: ${({ $top }) => $top};
+  left: ${({ $left }) => $left};
+  width: ${({ $size }) => $size}px;
+  height: ${({ $size }) => $size}px;
+  pointer-events: none;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: ${({ $alt }) => ($alt ? 'var(--gold-light)' : 'var(--gold)')};
+    clip-path: polygon(50% 0%, 55% 44%, 100% 50%, 55% 56%, 50% 100%, 45% 56%, 0% 50%, 45% 44%);
+  }
+
+  &::before {
+    animation: ${sparkleAnim} ${({ $dur }) => $dur}s ${({ $delay }) => $delay}s ease-in-out infinite;
+  }
+
+  &::after {
+    transform: rotate(45deg) scale(0.65);
+    opacity: 0.5;
+    animation: ${sparkleAnim} ${({ $dur }) => $dur}s ${({ $delay }) => $delay + 0.35}s ease-in-out
+      infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+`;
+
 const StyledHeroSection = styled.section`
   ${({ theme }) => theme.mixins.flexCenter};
   flex-direction: column;
@@ -275,10 +342,27 @@ const Hero = () => {
 
   return (
     <StyledHeroSection>
+      {/* Twinkling gold sparkle field */}
+      <SparkleField aria-hidden="true">
+        {SPARKLES.map((s, i) => (
+          <SparkleItem
+            key={i}
+            $top={s.top}
+            $left={s.left}
+            $size={s.size}
+            $delay={s.delay}
+            $dur={s.dur}
+            $alt={i % 4 === 0}
+          />
+        ))}
+      </SparkleField>
+
       {prefersReducedMotion ? (
         <>
           {items.map((item, i) => (
-            <div key={i}>{item}</div>
+            <div key={i} style={{ position: 'relative', zIndex: 1 }}>
+              {item}
+            </div>
           ))}
         </>
       ) : (
@@ -286,7 +370,9 @@ const Hero = () => {
           {isMounted &&
             items.map((item, i) => (
               <CSSTransition key={i} classNames="fadeup" timeout={loaderDelay}>
-                <div style={{ transitionDelay: `${i + 1}00ms` }}>{item}</div>
+                <div style={{ transitionDelay: `${i + 1}00ms`, position: 'relative', zIndex: 1 }}>
+                  {item}
+                </div>
               </CSSTransition>
             ))}
         </TransitionGroup>

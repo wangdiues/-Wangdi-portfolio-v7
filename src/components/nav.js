@@ -8,6 +8,12 @@ const logoOrbit = keyframes`
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
 `;
+
+const sparklePop = keyframes`
+  0%   { opacity: 1; transform: scale(0) translate(0, 0); }
+  60%  { opacity: 0.8; }
+  100% { opacity: 0; transform: scale(1.4) translate(var(--sx), var(--sy)); }
+`;
 import { navLinks } from '@config';
 import { loaderDelay } from '@utils';
 import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
@@ -144,6 +150,47 @@ const StyledNav = styled.nav`
         }
       }
 
+      /* Sparkle symbols that burst on hover */
+      .sparkle-burst {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 3;
+
+        span {
+          position: absolute;
+          font-size: 9px;
+          color: var(--gold-light);
+          opacity: 0;
+          pointer-events: none;
+
+          &:nth-child(1) {
+            top: -4px;
+            left: 50%;
+            --sx: -6px;
+            --sy: -14px;
+          }
+          &:nth-child(2) {
+            top: 50%;
+            right: -4px;
+            --sx: 14px;
+            --sy: -6px;
+          }
+          &:nth-child(3) {
+            bottom: -4px;
+            left: 50%;
+            --sx: 6px;
+            --sy: 14px;
+          }
+          &:nth-child(4) {
+            top: 50%;
+            left: -4px;
+            --sx: -14px;
+            --sy: 6px;
+          }
+        }
+      }
+
       &:hover,
       &:focus {
         outline: 0;
@@ -161,6 +208,25 @@ const StyledNav = styled.nav`
 
         .hex-container {
           transform: translateY(2px);
+        }
+
+        .sparkle-burst span {
+          @media (prefers-reduced-motion: no-preference) {
+            animation: ${sparklePop} 0.55s ease-out forwards;
+
+            &:nth-child(1) {
+              animation-delay: 0s;
+            }
+            &:nth-child(2) {
+              animation-delay: 0.08s;
+            }
+            &:nth-child(3) {
+              animation-delay: 0.16s;
+            }
+            &:nth-child(4) {
+              animation-delay: 0.24s;
+            }
+          }
         }
       }
     }
@@ -252,6 +318,12 @@ const Nav = ({ isHome }) => {
           <div className="logo-container">
             <IconLogo />
           </div>
+          <div className="sparkle-burst" aria-hidden="true">
+            <span>✦</span>
+            <span>✦</span>
+            <span>✦</span>
+            <span>✦</span>
+          </div>
         </a>
       ) : (
         <Link to="/" aria-label="home">
@@ -260,6 +332,12 @@ const Nav = ({ isHome }) => {
           </div>
           <div className="logo-container">
             <IconLogo />
+          </div>
+          <div className="sparkle-burst" aria-hidden="true">
+            <span>✦</span>
+            <span>✦</span>
+            <span>✦</span>
+            <span>✦</span>
           </div>
         </Link>
       )}

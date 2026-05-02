@@ -48,6 +48,12 @@ const profileOrbit = keyframes`
   to   { transform: rotate(360deg) translateX(84px); }
 `;
 
+const sparkleFloat = keyframes`
+  0%, 100% { transform: rotate(var(--sa)) translateX(102px) scale(0); opacity: 0; }
+  35%       { transform: rotate(var(--sa)) translateX(102px) scale(1.1); opacity: 0.8; }
+  65%       { transform: rotate(var(--sa)) translateX(102px) scale(0.8); opacity: 0.5; }
+`;
+
 const StyledAboutSection = styled.section`
   max-width: 900px;
 
@@ -167,6 +173,38 @@ const StyledProfilePanel = styled.div`
         0 16px 36px rgba(0, 0, 0, 0.28);
       overflow: hidden;
       flex-shrink: 0;
+    }
+
+    .photo-sparkle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      font-size: 11px;
+      color: var(--gold-light);
+      margin-top: -5.5px;
+      margin-left: -5.5px;
+      pointer-events: none;
+
+      &.s1 {
+        --sa: 30deg;
+        animation: ${sparkleFloat} 4.2s 0s ease-in-out infinite;
+      }
+      &.s2 {
+        --sa: 120deg;
+        animation: ${sparkleFloat} 3.8s 1.1s ease-in-out infinite;
+      }
+      &.s3 {
+        --sa: 215deg;
+        animation: ${sparkleFloat} 4.6s 2.3s ease-in-out infinite;
+      }
+      &.s4 {
+        --sa: 310deg;
+        animation: ${sparkleFloat} 3.5s 0.7s ease-in-out infinite;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        display: none;
+      }
     }
   }
 
@@ -337,6 +375,18 @@ const About = () => {
               formats={['auto', 'webp', 'avif']}
               imgStyle={{ borderRadius: '50%' }}
             />
+            <span className="photo-sparkle s1" aria-hidden="true">
+              ✦
+            </span>
+            <span className="photo-sparkle s2" aria-hidden="true">
+              ✦
+            </span>
+            <span className="photo-sparkle s3" aria-hidden="true">
+              ✦
+            </span>
+            <span className="photo-sparkle s4" aria-hidden="true">
+              ✦
+            </span>
           </div>
           <h3 className="credentials-title">Selected Credentials</h3>
 
